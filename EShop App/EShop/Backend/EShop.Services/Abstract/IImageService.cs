@@ -1,11 +1,13 @@
-using System;
 using EShop.Shared.Dtos.ResponseDtos;
 using Microsoft.AspNetCore.Http;
 
-namespace EShop.Services.Abstract;
-
-public interface IImageService
+namespace EShop.Services.Abstract
 {
-    Task<ResponseDto<string>> UploadImageAsync(IFormFile image);
-    ResponseDto<NoContent> DeleteImage(string imageUrl);
+    public interface IImageService
+    {
+        Task<ResponseDto<string>> UploadImageAsync(IFormFile image, string folder);
+        void DeleteImage(string imageUrl);
+        bool ImageExists(string imageUrl);
+        string GetDefaultImage(string folder);
+    }
 }

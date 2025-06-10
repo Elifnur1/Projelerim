@@ -1,5 +1,4 @@
 using EShop.Shared.Dtos.ResponseDtos;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EShop.Shared.ControllerBases

@@ -1,6 +1,7 @@
 using EShop.Services.Abstract;
 using EShop.Shared.ControllerBases;
 using EShop.Shared.Dtos;
+using EShop.Shared.Dtos.CartDtos;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -9,6 +10,7 @@ namespace EShop.API.Controllers
 {
     [Route("api/carts")]
     [ApiController]
+    [Authorize]
     public class CartsController : CustomControllerBase
     {
         private readonly ICartService _cartService;
@@ -18,7 +20,6 @@ namespace EShop.API.Controllers
             _cartService = cartService;
         }
 
-        [Authorize]
         [HttpGet]
         public async Task<IActionResult> GetCart()
         {
@@ -26,32 +27,30 @@ namespace EShop.API.Controllers
             return CreateResult(response);
         }
 
-        [Authorize]
         [HttpPost]
-        public async Task<IActionResult> AddToCart([FromBody] CartItemCreateDto cartItemCreateDto)
+        public async Task<IActionResult> AddToCart([FromBody] AddToCartDto addToCartDto)
         {
-            var response = await _cartService.AddToCartAsync(cartItemCreateDto);
+            addToCartDto.ApplicationUserId = GetUserId();
+            var response = await _cartService.AddToCartAsync(addToCartDto);
             return CreateResult(response);
         }
 
-        [Authorize]
-        [HttpDelete("remove/{cartItemId}")]
+        [HttpDelete("{cartItemId}")]
         public async Task<IActionResult> RemoveFromCart(int cartItemId)
         {
             var response = await _cartService.RemoveFromCartAsync(cartItemId);
             return CreateResult(response);
         }
 
-        [Authorize]
-        [HttpPut("quantity")]
-        public async Task<IActionResult> ChangeQuantity([FromBody] CartItemUpdateDto cartItemUpdateDto)
+        [HttpPut("{cartItemId}/quantity")]
+        public async Task<IActionResult> ChangeQuantity(int cartItemId, [FromQuery] int quantity)
         {
-            var response = await _cartService.ChangeQuantityAsync(cartItemUpdateDto);
+            var changeQuantityDto = new ChangeQuantityDto(cartItemId, quantity);
+            var response = await _cartService.ChangeQuantityAsync(changeQuantityDto);
             return CreateResult(response);
         }
 
-        [Authorize]
-        [HttpDelete("clear")]
+        [HttpDelete("items")]
         public async Task<IActionResult> Clear()
         {
             var response = await _cartService.ClearCartAsync(GetUserId());

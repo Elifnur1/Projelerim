@@ -1,5 +1,5 @@
-//dotnet publish EShop.API/EShop.API.csproj -c Release -r win-x64 --self-contained true -o Publish2
 using System.Text;
+using EShop.API.Middlewares;
 using EShop.Data.Abstract;
 using EShop.Data.Concrete;
 using EShop.Data.Concrete.Contexts;
@@ -24,7 +24,7 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddDbContext<EShopDbContext>(options =>
 {
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("RemoteConnection"));
 });
 
 builder.Services.AddIdentity<ApplicationUser, ApplicationRole>(options =>
@@ -34,11 +34,12 @@ builder.Services.AddIdentity<ApplicationUser, ApplicationRole>(options =>
     options.Password.RequireNonAlphanumeric = true;
     options.Password.RequireUppercase = true;
     options.Password.RequiredLength = 8;
-
     options.User.RequireUniqueEmail = true;
 }).AddEntityFrameworkStores<EShopDbContext>().AddDefaultTokenProviders();
 
 builder.Services.Configure<JwtConfig>(builder.Configuration.GetSection("JwtConfig"));
+builder.Services.Configure<AppUrlConfig>(builder.Configuration.GetSection("AppUrl"));
+builder.Services.Configure<EmailConfig>(builder.Configuration.GetSection("EmailConfig"));
 
 var jwtConfig = builder.Configuration.GetSection("JwtConfig").Get<JwtConfig>();
 
@@ -60,8 +61,6 @@ builder.Services.AddAuthentication(options =>
     };
 });
 
-builder.Services.Configure<EmailConfig>(builder.Configuration.GetSection("EmailConfig"));
-
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 
@@ -72,19 +71,23 @@ builder.Services.AddScoped<ICartService, CartManager>();
 builder.Services.AddScoped<IOrderService, OrderManager>();
 builder.Services.AddScoped<IImageService, ImageManager>();
 builder.Services.AddScoped<IEmailService, EmailManager>();
+builder.Services.AddScoped<IUserService, UserManager>();
+builder.Services.AddScoped<IApiClientService, ApiClientManager>();
 
 builder.Services.AddAutoMapper(typeof(MappingProfile));
 
 
 var app = builder.Build();
 
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+// if (app.Environment.IsDevelopment())
+// {
+app.UseSwagger();
+app.UseSwaggerUI();
+// }
 
 app.UseStaticFiles();
+
+app.UseMiddleware<ApiKeyMiddleware>();
 
 app.UseAuthentication();
 

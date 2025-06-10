@@ -1,9 +1,12 @@
 using EShop.Services.Abstract;
 using EShop.Shared.ControllerBases;
 using EShop.Shared.Dtos;
+using EShop.Shared.Dtos.ProductDtos;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Linq.Expressions;
+using Microsoft.EntityFrameworkCore;
 
 namespace EShop.API.Controllers
 {
@@ -18,6 +21,7 @@ namespace EShop.API.Controllers
             _productManager = productManager;
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<IActionResult> Add(ProductCreateDto productCreateDto)
         {
@@ -26,90 +30,33 @@ namespace EShop.API.Controllers
             return CreateResult(response);
         }
 
-        [HttpPut]
-        public async Task<IActionResult> Update(ProductUpdateDto productUpdateDto)
+        [Authorize(Roles = "Admin")]
+        [HttpPut("{id}")]
+        public async Task<IActionResult> Update(int id, ProductUpdateDto productUpdateDto)
         {
+            productUpdateDto.Id = id;
             var response = await _productManager.UpdateAsync(productUpdateDto);
             return CreateResult(response);
         }
 
-        [HttpDelete("harddelete/{id}")]
+        [Authorize(Roles = "Admin")]
+        [HttpDelete("{id}")]
         public async Task<IActionResult> HardDelete(int id)
         {
             var response = await _productManager.HardDeleteAsync(id);
             return CreateResult(response);
         }
-        [HttpDelete("softdelete/{id}")]
+
+        [Authorize(Roles = "Admin")]
+        [HttpPut("{id}/status")]
         public async Task<IActionResult> SoftDelete(int id)
         {
             var response = await _productManager.SoftDeleteAsync(id);
             return CreateResult(response);
         }
 
-        [HttpGet("get/{id}")]
-        public async Task<IActionResult> GetById(int id)
-        {
-            var response = await _productManager.GetAsync(id);
-            return CreateResult(response);
-        }
-
-        [HttpGet("get/withcategories/{id}")]
-        public async Task<IActionResult> GetByIdWithCategories(int id)
-        {
-            var response = await _productManager.GetWithCategoriesAsync(id);
-            return CreateResult(response);
-        }
-
-        [HttpGet("get/all")]
-        public async Task<IActionResult> GetAll()
-        {
-            var response = await _productManager.GetAllAsync();
-            return CreateResult(response);
-        }
-
-        [HttpGet("get/all/active")]
-        public async Task<IActionResult> GetAll([FromQuery] bool isActive)
-        {
-            var response = await _productManager.GetAllAsync(isActive);
-            return CreateResult(response);
-        }
-
-        [HttpGet("get/all/withcategories")]
-        public async Task<IActionResult> GetAllWithCategories()
-        {
-            var response = await _productManager.GetAllWithCategoriesAsync();
-            return CreateResult(response);
-        }
-
-        [HttpGet("get/all/bycategory")]
-        public async Task<IActionResult> GetAllByCategory([FromQuery] int categoryId)
-        {
-            var response = await _productManager.GetByCategoryAsync(categoryId);
-            return CreateResult(response);
-        }
-
-        [HttpGet("count")]
-        public async Task<IActionResult> GetCount()
-        {
-            var response = await _productManager.CountAsync();
-            return CreateResult(response);
-        }
-
-        [HttpGet("count/active")]
-        public async Task<IActionResult> GetActivesCount()
-        {
-            var response = await _productManager.CountAsync(true);
-            return CreateResult(response);
-        }
-
-        [HttpGet("count/passive")]
-        public async Task<IActionResult> GetPassivesCount()
-        {
-            var response = await _productManager.CountAsync(false);
-            return CreateResult(response);
-        }
-
-        [HttpPut("updateisactive/{id}")]
+        [Authorize(Roles = "Admin")]
+        [HttpPut("{id}/active")]
         public async Task<IActionResult> UpdateIsActive(int id)
         {
             var response = await _productManager.UpdateIsActiveAsync(id);
@@ -117,11 +64,57 @@ namespace EShop.API.Controllers
         }
 
         [Authorize(Roles = "Admin")]
-        [HttpGet("get/all/deleted")]
-        public async Task<IActionResult> GetAllDeleted()
+        [HttpPut("{id}/home")]
+        public async Task<IActionResult> UpdateIsHome(int id)
         {
-            var response = await _productManager.GetAllDeletedAsync();
+            var response = await _productManager.UpdateIsHomeAsync(id);
             return CreateResult(response);
         }
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetById(int id, [FromQuery] bool includeCategories = false)
+        {
+            var response = await _productManager.GetAsync(id, includeCategories);
+            return CreateResult(response);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetAll([FromQuery] bool includeCategories = false, [FromQuery] int? categoryId = null)
+        {
+            var response = await _productManager.GetAllAsync(
+                isActive: true,
+                includeCategories: includeCategories,
+                categoryId: categoryId,
+                isDeleted: false
+            );
+            return CreateResult(response);
+        }
+
+
+        [Authorize(Roles = "Admin")]
+        [HttpGet("admin")]
+        public async Task<IActionResult> GetAllForAdmin(
+            [FromQuery] bool? isActive = null,
+            [FromQuery] bool includeCategories = false,
+            [FromQuery] int? categoryId = null,
+            [FromQuery] bool? isDeleted = null)
+        {
+            var response = await _productManager.GetAllAsync(
+                isActive: isActive,
+                includeCategories: includeCategories,
+                categoryId: categoryId,
+                isDeleted: isDeleted
+            );
+            return CreateResult(response);
+        }
+
+        [HttpGet("count")]
+        public async Task<IActionResult> Count([FromQuery] bool? isActive = null)
+        {
+            var response = await _productManager.CountAsync(isActive);
+            return CreateResult(response);
+        }
+
+
     }
 }

@@ -1,39 +1,39 @@
-using System;
 using EShop.Data.Abstract;
 using EShop.Data.Concrete.Contexts;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace EShop.Data.Concrete;
-
-public class UnitOfWork : IUnitOfWork
+namespace EShop.Data.Concrete
 {
-    private readonly EShopDbContext _dbContext;
-    private readonly IServiceProvider _serviceProvider;
-
-    public UnitOfWork(EShopDbContext dbContext, IServiceProvider serviceProvider)
+    public class UnitOfWork : IUnitOfWork
     {
-        _dbContext = dbContext;
-        _serviceProvider = serviceProvider;
-    }
+        private readonly EShopDbContext _dbContext;
+        private readonly IServiceProvider _serviceProvider;
 
-    public void Dispose()
-    {
-        _dbContext.Dispose();
-    }
+        public UnitOfWork(EShopDbContext dbContext, IServiceProvider serviceProvider)
+        {
+            _dbContext = dbContext;
+            _serviceProvider = serviceProvider;
+        }
 
-    public IGenericRepository<TEntity> GetRepository<TEntity>() where TEntity : class
-    {
-        var repository = _serviceProvider.GetRequiredService<IGenericRepository<TEntity>>();
-        return repository;
-    }
+        public void Dispose()
+        {
+            _dbContext.Dispose();
+        }
 
-    public int Save()
-    {
-        return _dbContext.SaveChanges();
-    }
+        public IGenericRepository<TEntity> GetRepository<TEntity>() where TEntity : class
+        {
+            var repository = _serviceProvider.GetRequiredService<IGenericRepository<TEntity>>();
+            return repository;
+        }
 
-    public async Task<int> SaveAsync()
-    {
-        return await _dbContext.SaveChangesAsync();
+        public int Save()
+        {
+            return _dbContext.SaveChanges();
+        }
+
+        public async Task<int> SaveAsync()
+        {
+            return await _dbContext.SaveChangesAsync();
+        }
     }
 }

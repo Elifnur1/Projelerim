@@ -1,86 +1,103 @@
-using System;
 using EShop.Services.Abstract;
 using EShop.Shared.Dtos.ResponseDtos;
 using Microsoft.AspNetCore.Http;
 
-namespace EShop.Services.Concrete;
-
-public class ImageManager : IImageService
+namespace EShop.Services.Concrete
 {
-    private readonly string _imageFolderPath;
-    public ImageManager()
+    public class ImageManager : IImageService
     {
-        //C:\Users\enginniyazi\Documents\GitHub\10-BE-UZMANLIK-YY\03-API\Week07\19-01-2024\EShop\EShop.API\wwwroot\images
-        _imageFolderPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "images");
-        if (!Directory.Exists(_imageFolderPath))
+        private readonly string _imageFolderPath;
+        public ImageManager()
         {
-            Directory.CreateDirectory(_imageFolderPath);
+            _imageFolderPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "images");
+            if (!Directory.Exists(_imageFolderPath))
+            {
+                Directory.CreateDirectory(_imageFolderPath);
+            }
         }
-    }
-    public ResponseDto<NoContent> DeleteImage(string imageUrl)
-    {
-        try
+
+        public bool ImageExists(string imageUrl)
         {
-            if (string.IsNullOrWhiteSpace(imageUrl))
+            try
             {
-                return ResponseDto<NoContent>.Fail("Resim yolu boş olamaz!", StatusCodes.Status400BadRequest);
+                if (string.IsNullOrEmpty(imageUrl)) return false;
+
+                var fileName = imageUrl.Replace("/images/", "");
+                var fileFullPath = Path.Combine(_imageFolderPath, fileName);
+                return File.Exists(fileFullPath);
             }
-
-            var fileName = Path.GetFileName(imageUrl);//48d2770e-e8c4-4590-b2b0-b88327dcc10b.png
-            var fileFullPath = Path.Combine(_imageFolderPath, fileName);//C:\Users\enginniyazi\Documents\GitHub\10-BE-UZMANLIK-YY\03-API\Week07\19-01-2024\EShop\EShop.API\wwwroot\images\48d2770e-e8c4-4590-b2b0-b88327dcc10b.png
-
-            if (!File.Exists(fileFullPath))
+            catch
             {
-                return ResponseDto<NoContent>.Fail("Resim dosyası bulunamadı!", StatusCodes.Status404NotFound);
+                return false;
             }
-
-            File.Delete(fileFullPath);
-            return ResponseDto<NoContent>.Success(StatusCodes.Status200OK);
-
         }
-        catch (Exception ex)
+
+        public string GetDefaultImage(string folder)
         {
-            return ResponseDto<NoContent>.Fail(ex.Message, StatusCodes.Status500InternalServerError);
+            if (folder == "categories")
+            {
+                return $"/images/{folder}/default-category.png";
+            }
+            return $"/images/{folder}/default-{folder.TrimEnd('s')}.png";
         }
-    }
 
-    public async Task<ResponseDto<string>> UploadImageAsync(IFormFile image)
-    {
-        try
+        public void DeleteImage(string imageUrl)
         {
-            if (image == null)
+            try
             {
-                return ResponseDto<string>.Fail("Resim dosyası boş olamaz!", StatusCodes.Status400BadRequest);
+                var fileName = imageUrl.Replace("/images/", "");
+                var fileFullPath = Path.Combine(_imageFolderPath, fileName);
+                File.Delete(fileFullPath);
             }
-
-            if (image.Length == 0)
+            catch (Exception ex)
             {
-                return ResponseDto<string>.Fail("Resim dosyası 0 byte'tan büyük olmalıdır.", StatusCodes.Status400BadRequest);
+                Console.WriteLine(ex.Message);
             }
-
-            var allowedExtensions = new[] { ".jpg", ".jpeg", ".png", ".bmp", ".gif" };
-            var imageExtension = Path.GetExtension(image.FileName);//.png
-            if (!allowedExtensions.Contains(imageExtension))
-            {
-                return ResponseDto<string>.Fail("Uygunsuz dosya uzantısı. Uygulanabilir uzantılar: .jpg, .jpeg, .png, .bmp, .gif", StatusCodes.Status400BadRequest);
-            }
-
-            if (image.Length > 5 * 1024 * 1024)
-            {
-                return ResponseDto<string>.Fail("Resim dosyası 5MB'dan büyük olamaz.", StatusCodes.Status400BadRequest);
-            }
-
-            var fileName = $"{Guid.NewGuid()}{imageExtension}";//48d2770e-e8c4-4590-b2b0-b88327dcc10b.png
-            var fileFullPath = Path.Combine(_imageFolderPath, fileName);//C:\Users\enginniyazi\Documents\GitHub\10-BE-UZMANLIK-YY\03-API\Week07\19-01-2024\EShop\EShop.API\wwwroot\images\48d2770e-e8c4-4590-b2b0-b88327dcc10b.png
-            using (var stream = new FileStream(fileFullPath, FileMode.Create))
-            {
-                await image.CopyToAsync(stream);
-            }
-            return ResponseDto<string>.Success($"/images/{fileName}", StatusCodes.Status201Created);
         }
-        catch (Exception ex)
+
+        public async Task<ResponseDto<string>> UploadImageAsync(IFormFile image, string folder)
         {
-            return ResponseDto<string>.Fail(ex.Message, StatusCodes.Status500InternalServerError);
+            try
+            {
+                if (image == null)
+                {
+                    return ResponseDto<string>.Fail("Resim dosyası boş olamaz!", StatusCodes.Status400BadRequest);
+                }
+
+                if (image.Length == 0)
+                {
+                    return ResponseDto<string>.Fail("Resim dosyası 0 byte'tan büyük olmalıdır.", StatusCodes.Status400BadRequest);
+                }
+
+                var allowedExtensions = new[] { ".jpg", ".jpeg", ".png", ".bmp", ".gif" };
+                var imageExtension = Path.GetExtension(image.FileName);//.png
+                if (!allowedExtensions.Contains(imageExtension))
+                {
+                    return ResponseDto<string>.Fail("Uygunsuz dosya uzantısı. Uygulanabilir uzantılar: .jpg, .jpeg, .png, .bmp, .gif", StatusCodes.Status400BadRequest);
+                }
+
+                if (image.Length > 5 * 1024 * 1024)
+                {
+                    return ResponseDto<string>.Fail("Resim dosyası 5MB'dan büyük olamaz.", StatusCodes.Status400BadRequest);
+                }
+
+                var fileName = $"{Guid.NewGuid()}{imageExtension}";
+                var folderPath = Path.Combine(_imageFolderPath, folder);
+                if (!Directory.Exists(folderPath))
+                {
+                    Directory.CreateDirectory(folderPath);
+                }
+                var fileFullPath = Path.Combine(folderPath, fileName);
+                using (var stream = new FileStream(fileFullPath, FileMode.Create))
+                {
+                    await image.CopyToAsync(stream);
+                }
+                return ResponseDto<string>.Success($"/images/{folder}/{fileName}", StatusCodes.Status201Created);
+            }
+            catch (Exception ex)
+            {
+                return ResponseDto<string>.Fail(ex.Message, StatusCodes.Status500InternalServerError);
+            }
         }
     }
 }

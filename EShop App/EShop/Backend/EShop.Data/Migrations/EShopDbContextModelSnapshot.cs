@@ -22,6 +22,44 @@ namespace EShop.Data.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+            modelBuilder.Entity("EShop.Entity.Concrete.ApiClient", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("ApiKey")
+                        .IsRequired()
+                        .HasMaxLength(32)
+                        .HasColumnType("nvarchar(32)");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("LastUsedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<int>("RequestCount")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ApiClients");
+                });
+
             modelBuilder.Entity("EShop.Entity.Concrete.ApplicationRole", b =>
                 {
                     b.Property<string>("Id")
@@ -158,21 +196,21 @@ namespace EShop.Data.Migrations
                             AccessFailedCount = 0,
                             Address = "Ataşehir",
                             City = "İstanbul",
-                            ConcurrencyStamp = "a97469ac-b9be-4399-83a4-5a5f168c9e54",
+                            ConcurrencyStamp = "57dd9fa4-156b-4ae0-b262-674abee11340",
                             DateOfBirth = new DateTime(1995, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Email = "adminuser@gmail.com",
+                            Email = "testadmin@gmail.com",
                             EmailConfirmed = true,
                             FirstName = "Ali",
                             Gender = 3,
                             LastName = "Cabbar",
                             LockoutEnabled = false,
-                            NormalizedEmail = "ADMINUSER@GMAIL.COM",
-                            NormalizedUserName = "ADMINUSER@GMAIL.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEAfpU71qxFNW5EINn7XSCNz/MprltKs77GPbx9wXt4puyjK69JEUSP5vhMNRRdm9HQ==",
+                            NormalizedEmail = "TESTADMIN@GMAIL.COM",
+                            NormalizedUserName = "TESTADMIN",
+                            PasswordHash = "AQAAAAIAAYagAAAAEM8ySgH7yQJMR6+2pJHo4y5aHDdmDV3l9r4HpRRgyUIqaT7QfPlkMs6V3MCuWBvNLQ==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "5f1d42b1-fd09-4359-a9c3-35169fae50fe",
+                            SecurityStamp = "1fe9deaa-a0fa-4a75-9d97-90b62661e7d5",
                             TwoFactorEnabled = false,
-                            UserName = "adminuser@gmail.com"
+                            UserName = "testadmin"
                         },
                         new
                         {
@@ -180,21 +218,21 @@ namespace EShop.Data.Migrations
                             AccessFailedCount = 0,
                             Address = "Kadıköy",
                             City = "İstanbul",
-                            ConcurrencyStamp = "6d999d42-12dc-49e8-a1ca-e6ae414ed3c8",
+                            ConcurrencyStamp = "a2f29f94-e6ae-4ca1-b3b3-bfeca1516ddc",
                             DateOfBirth = new DateTime(1995, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Email = "normaluser@gmail.com",
+                            Email = "testuser@gmail.com",
                             EmailConfirmed = true,
                             FirstName = "Esin",
                             Gender = 2,
                             LastName = "Çelik",
                             LockoutEnabled = false,
-                            NormalizedEmail = "NORMALUSER@GMAIL.COM",
-                            NormalizedUserName = "NORMALUSER@GMAIL.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEGhroa2tnpSM5OW7CANzo3toxm4i8aXMVCnpnVkZF9hswRTHuw33Md/x6QLcLY9ZOA==",
+                            NormalizedEmail = "TESTUSER@GMAIL.COM",
+                            NormalizedUserName = "TESTUSER",
+                            PasswordHash = "AQAAAAIAAYagAAAAEOLVJ7fuGxu9mLtC0mr/zp3ad8SYIUSa3qQKVEEtITynGbm/BOh8Csbd433FGo/80Q==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "4a3a5de4-2dae-42df-802f-eed2a30d1849",
+                            SecurityStamp = "5ab818a9-bf3c-4f8b-a6ac-5cbefd4eb902",
                             TwoFactorEnabled = false,
-                            UserName = "normaluser@gmail.com"
+                            UserName = "testuser"
                         });
                 });
 
@@ -209,8 +247,11 @@ namespace EShop.Data.Migrations
                     b.Property<string>("ApplicationUserId")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<DateTime>("CreateDate")
-                        .HasColumnType("datetime2");
+                    b.Property<DateTimeOffset>("CreatedAt")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<DateTimeOffset>("DeletedAt")
+                        .HasColumnType("datetimeoffset");
 
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
@@ -218,8 +259,8 @@ namespace EShop.Data.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
-                    b.Property<DateTime>("UpdatedDate")
-                        .HasColumnType("datetime2");
+                    b.Property<DateTimeOffset>("UpdatedAt")
+                        .HasColumnType("datetimeoffset");
 
                     b.HasKey("Id");
 
@@ -232,19 +273,21 @@ namespace EShop.Data.Migrations
                         {
                             Id = 1,
                             ApplicationUserId = "d2fe392f-4f60-4963-ba3a-ea52b71fb53e",
-                            CreateDate = new DateTime(2025, 2, 8, 12, 5, 10, 458, DateTimeKind.Utc).AddTicks(524),
+                            CreatedAt = new DateTimeOffset(new DateTime(2025, 3, 16, 1, 32, 27, 787, DateTimeKind.Unspecified).AddTicks(3980), new TimeSpan(0, 0, 0, 0, 0)),
+                            DeletedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             IsActive = true,
                             IsDeleted = false,
-                            UpdatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                            UpdatedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0))
                         },
                         new
                         {
                             Id = 2,
                             ApplicationUserId = "d4757375-a497-496b-85dc-a510027bd9b1",
-                            CreateDate = new DateTime(2025, 2, 8, 12, 5, 10, 458, DateTimeKind.Utc).AddTicks(529),
+                            CreatedAt = new DateTimeOffset(new DateTime(2025, 3, 16, 1, 32, 27, 787, DateTimeKind.Unspecified).AddTicks(3980), new TimeSpan(0, 0, 0, 0, 0)),
+                            DeletedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             IsActive = true,
                             IsDeleted = false,
-                            UpdatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                            UpdatedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0))
                         });
                 });
 
@@ -259,8 +302,11 @@ namespace EShop.Data.Migrations
                     b.Property<int>("CartId")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("CreateDate")
-                        .HasColumnType("datetime2");
+                    b.Property<DateTimeOffset>("CreatedAt")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<DateTimeOffset>("DeletedAt")
+                        .HasColumnType("datetimeoffset");
 
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
@@ -274,8 +320,8 @@ namespace EShop.Data.Migrations
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("UpdatedDate")
-                        .HasColumnType("datetime2");
+                    b.Property<DateTimeOffset>("UpdatedAt")
+                        .HasColumnType("datetimeoffset");
 
                     b.HasKey("Id");
 
@@ -294,8 +340,11 @@ namespace EShop.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<DateTime>("CreateDate")
-                        .HasColumnType("datetime2");
+                    b.Property<DateTimeOffset>("CreatedAt")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<DateTimeOffset>("DeletedAt")
+                        .HasColumnType("datetimeoffset");
 
                     b.Property<string>("Description")
                         .HasMaxLength(500)
@@ -311,13 +360,16 @@ namespace EShop.Data.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
+                    b.Property<bool>("IsMenuItem")
+                        .HasColumnType("bit");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(200)
                         .HasColumnType("nvarchar(200)");
 
-                    b.Property<DateTime>("UpdatedDate")
-                        .HasColumnType("datetime2");
+                    b.Property<DateTimeOffset>("UpdatedAt")
+                        .HasColumnType("datetimeoffset");
 
                     b.HasKey("Id");
 
@@ -327,112 +379,132 @@ namespace EShop.Data.Migrations
                         new
                         {
                             Id = 1,
-                            CreateDate = new DateTime(2025, 2, 8, 12, 5, 10, 305, DateTimeKind.Utc).AddTicks(786),
-                            Description = "Bilgisayarlar, telefonlar ve diğer elektronik ürünler.",
-                            ImageUrl = "/images/categories/elektronik.jpg",
+                            CreatedAt = new DateTimeOffset(new DateTime(2025, 3, 16, 1, 32, 27, 713, DateTimeKind.Unspecified).AddTicks(9150), new TimeSpan(0, 0, 0, 0, 0)),
+                            DeletedAt = new DateTimeOffset(new DateTime(2025, 3, 16, 1, 32, 27, 713, DateTimeKind.Unspecified).AddTicks(9150), new TimeSpan(0, 0, 0, 0, 0)),
+                            Description = "Bilgisayarlar, akıllı telefonlar, tabletler, televizyonlar ve diğer tüm elektronik cihazlar bu kategoride bulunabilir. Teknoloji tutkunları için en yeni ve popüler ürünler burada!",
+                            ImageUrl = "/images/categories/elektronik.png",
                             IsActive = true,
                             IsDeleted = false,
+                            IsMenuItem = true,
                             Name = "Elektronik",
-                            UpdatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                            UpdatedAt = new DateTimeOffset(new DateTime(2025, 3, 16, 1, 32, 27, 713, DateTimeKind.Unspecified).AddTicks(9150), new TimeSpan(0, 0, 0, 0, 0))
                         },
                         new
                         {
                             Id = 2,
-                            CreateDate = new DateTime(2025, 2, 8, 12, 5, 10, 305, DateTimeKind.Utc).AddTicks(790),
-                            Description = "Kadın, erkek ve çocuk giyim ürünleri.",
-                            ImageUrl = "/images/categories/moda.jpg",
+                            CreatedAt = new DateTimeOffset(new DateTime(2025, 3, 16, 1, 32, 27, 713, DateTimeKind.Unspecified).AddTicks(9150), new TimeSpan(0, 0, 0, 0, 0)),
+                            DeletedAt = new DateTimeOffset(new DateTime(2025, 3, 16, 1, 32, 27, 713, DateTimeKind.Unspecified).AddTicks(9160), new TimeSpan(0, 0, 0, 0, 0)),
+                            Description = "Kadın, erkek ve çocuk giyim ürünleri, ayakkabılar, çantalar ve aksesuarlar bu kategoride. Trendleri yakalayın ve tarzınızı yansıtın!",
+                            ImageUrl = "/images/categories/moda.png",
                             IsActive = true,
                             IsDeleted = false,
+                            IsMenuItem = true,
                             Name = "Moda",
-                            UpdatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                            UpdatedAt = new DateTimeOffset(new DateTime(2025, 3, 16, 1, 32, 27, 713, DateTimeKind.Unspecified).AddTicks(9160), new TimeSpan(0, 0, 0, 0, 0))
                         },
                         new
                         {
                             Id = 3,
-                            CreateDate = new DateTime(2025, 2, 8, 12, 5, 10, 305, DateTimeKind.Utc).AddTicks(791),
-                            Description = "Ev dekorasyonu ve yaşam alanları için ürünler.",
-                            ImageUrl = "/images/categories/ev-ve-yasam.jpg",
+                            CreatedAt = new DateTimeOffset(new DateTime(2025, 3, 16, 1, 32, 27, 713, DateTimeKind.Unspecified).AddTicks(9160), new TimeSpan(0, 0, 0, 0, 0)),
+                            DeletedAt = new DateTimeOffset(new DateTime(2025, 3, 16, 1, 32, 27, 713, DateTimeKind.Unspecified).AddTicks(9160), new TimeSpan(0, 0, 0, 0, 0)),
+                            Description = "Ev dekorasyonu, mobilyalar, mutfak gereçleri, bahçe ürünleri ve daha fazlası bu kategoride. Evinizi güzelleştirmek için ihtiyacınız olan her şey burada!",
+                            ImageUrl = "/images/categories/ev-yasam.png",
                             IsActive = true,
                             IsDeleted = false,
+                            IsMenuItem = true,
                             Name = "Ev & Yaşam",
-                            UpdatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                            UpdatedAt = new DateTimeOffset(new DateTime(2025, 3, 16, 1, 32, 27, 713, DateTimeKind.Unspecified).AddTicks(9160), new TimeSpan(0, 0, 0, 0, 0))
                         },
                         new
                         {
                             Id = 4,
-                            CreateDate = new DateTime(2025, 2, 8, 12, 5, 10, 305, DateTimeKind.Utc).AddTicks(793),
-                            Description = "Outdoor ve spor yaparken kullanabileceğiniz ekipmanlar.",
-                            ImageUrl = "/images/categories/spor-outdoor.jpg",
+                            CreatedAt = new DateTimeOffset(new DateTime(2025, 3, 16, 1, 32, 27, 713, DateTimeKind.Unspecified).AddTicks(9160), new TimeSpan(0, 0, 0, 0, 0)),
+                            DeletedAt = new DateTimeOffset(new DateTime(2025, 3, 16, 1, 32, 27, 713, DateTimeKind.Unspecified).AddTicks(9160), new TimeSpan(0, 0, 0, 0, 0)),
+                            Description = "Spor ekipmanları, outdoor giyim, kamp malzemeleri, bisikletler ve fitness ürünleri bu kategoride. Aktif bir yaşam için ihtiyacınız olan her şey burada!",
+                            ImageUrl = "/images/categories/spor-outdoor.png",
                             IsActive = true,
                             IsDeleted = false,
+                            IsMenuItem = true,
                             Name = "Spor & Outdoor",
-                            UpdatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                            UpdatedAt = new DateTimeOffset(new DateTime(2025, 3, 16, 1, 32, 27, 713, DateTimeKind.Unspecified).AddTicks(9160), new TimeSpan(0, 0, 0, 0, 0))
                         },
                         new
                         {
                             Id = 5,
-                            CreateDate = new DateTime(2025, 2, 8, 12, 5, 10, 305, DateTimeKind.Utc).AddTicks(794),
-                            Description = "Araba aksesuarları ve yedek parçalar.",
-                            ImageUrl = "/images/categories/otomotiv.jpg",
-                            IsActive = false,
+                            CreatedAt = new DateTimeOffset(new DateTime(2025, 3, 16, 1, 32, 27, 713, DateTimeKind.Unspecified).AddTicks(9160), new TimeSpan(0, 0, 0, 0, 0)),
+                            DeletedAt = new DateTimeOffset(new DateTime(2025, 3, 16, 1, 32, 27, 713, DateTimeKind.Unspecified).AddTicks(9160), new TimeSpan(0, 0, 0, 0, 0)),
+                            Description = "Romanlar, kişisel gelişim kitapları, akademik yayınlar, dergiler ve daha fazlası bu kategoride. Okuma tutkunları için geniş bir seçki!",
+                            ImageUrl = "/images/categories/kitap-dergi.png",
+                            IsActive = true,
                             IsDeleted = false,
-                            Name = "Otomotiv",
-                            UpdatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                            IsMenuItem = true,
+                            Name = "Kitap & Dergi",
+                            UpdatedAt = new DateTimeOffset(new DateTime(2025, 3, 16, 1, 32, 27, 713, DateTimeKind.Unspecified).AddTicks(9160), new TimeSpan(0, 0, 0, 0, 0))
                         },
                         new
                         {
                             Id = 6,
-                            CreateDate = new DateTime(2025, 2, 8, 12, 5, 10, 305, DateTimeKind.Utc).AddTicks(795),
-                            Description = "Farklı kategorilerde kitaplar.",
-                            ImageUrl = "/images/categories/kitaplar.jpg",
+                            CreatedAt = new DateTimeOffset(new DateTime(2025, 3, 16, 1, 32, 27, 713, DateTimeKind.Unspecified).AddTicks(9160), new TimeSpan(0, 0, 0, 0, 0)),
+                            DeletedAt = new DateTimeOffset(new DateTime(2025, 3, 16, 1, 32, 27, 713, DateTimeKind.Unspecified).AddTicks(9160), new TimeSpan(0, 0, 0, 0, 0)),
+                            Description = "Çocuk oyuncakları, yapbozlar, model kitler, hobi malzemeleri ve koleksiyon ürünleri bu kategoride. Hem çocuklar hem de yetişkinler için eğlenceli seçenekler!",
+                            ImageUrl = "/images/categories/oyuncak-hobi.png",
                             IsActive = true,
                             IsDeleted = false,
-                            Name = "Kitaplar",
-                            UpdatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                            IsMenuItem = false,
+                            Name = "Oyuncak & Hobi",
+                            UpdatedAt = new DateTimeOffset(new DateTime(2025, 3, 16, 1, 32, 27, 713, DateTimeKind.Unspecified).AddTicks(9160), new TimeSpan(0, 0, 0, 0, 0))
                         },
                         new
                         {
                             Id = 7,
-                            CreateDate = new DateTime(2025, 2, 8, 12, 5, 10, 305, DateTimeKind.Utc).AddTicks(796),
-                            Description = "Sağlık ve güzellik ürünleri.",
-                            ImageUrl = "/images/categories/saglik-kozmetik.jpg",
+                            CreatedAt = new DateTimeOffset(new DateTime(2025, 3, 16, 1, 32, 27, 713, DateTimeKind.Unspecified).AddTicks(9160), new TimeSpan(0, 0, 0, 0, 0)),
+                            DeletedAt = new DateTimeOffset(new DateTime(2025, 3, 16, 1, 32, 27, 713, DateTimeKind.Unspecified).AddTicks(9170), new TimeSpan(0, 0, 0, 0, 0)),
+                            Description = "Cilt bakım ürünleri, makyaj malzemeleri, parfümler, saç bakım ürünleri ve daha fazlası bu kategoride. Kendinizi şımartın ve bakım rutininizi oluşturun!",
+                            ImageUrl = "/images/categories/kozmetik-bakim.png",
                             IsActive = true,
                             IsDeleted = false,
-                            Name = "Sağlık & Kozmetik",
-                            UpdatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                            IsMenuItem = false,
+                            Name = "Kozmetik & Kişisel Bakım",
+                            UpdatedAt = new DateTimeOffset(new DateTime(2025, 3, 16, 1, 32, 27, 713, DateTimeKind.Unspecified).AddTicks(9170), new TimeSpan(0, 0, 0, 0, 0))
                         },
                         new
                         {
                             Id = 8,
-                            CreateDate = new DateTime(2025, 2, 8, 12, 5, 10, 305, DateTimeKind.Utc).AddTicks(798),
-                            Description = "Yiyecek ve içecek ürünleri.",
-                            ImageUrl = "/images/categories/gida.jpg",
-                            IsActive = true,
+                            CreatedAt = new DateTimeOffset(new DateTime(2025, 3, 16, 1, 32, 27, 713, DateTimeKind.Unspecified).AddTicks(9170), new TimeSpan(0, 0, 0, 0, 0)),
+                            DeletedAt = new DateTimeOffset(new DateTime(2025, 3, 16, 1, 32, 27, 713, DateTimeKind.Unspecified).AddTicks(9170), new TimeSpan(0, 0, 0, 0, 0)),
+                            Description = "Valizler, sırt çantaları, seyahat aksesuarları ve seyahat planlaması için gerekli ürünler bu kategoride. Yeni yerler keşfetmeye hazır olun!",
+                            ImageUrl = "/images/categories/seyahat-valiz.png",
+                            IsActive = false,
                             IsDeleted = false,
-                            Name = "Gıda",
-                            UpdatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                            IsMenuItem = false,
+                            Name = "Seyahat & Valiz",
+                            UpdatedAt = new DateTimeOffset(new DateTime(2025, 3, 16, 1, 32, 27, 713, DateTimeKind.Unspecified).AddTicks(9170), new TimeSpan(0, 0, 0, 0, 0))
                         },
                         new
                         {
                             Id = 9,
-                            CreateDate = new DateTime(2025, 2, 8, 12, 5, 10, 305, DateTimeKind.Utc).AddTicks(799),
-                            Description = "Hobi, oyun ve eğlence ürünleri.",
-                            ImageUrl = "/images/categories/hobi-eglence.jpg",
-                            IsActive = false,
+                            CreatedAt = new DateTimeOffset(new DateTime(2025, 3, 16, 1, 32, 27, 713, DateTimeKind.Unspecified).AddTicks(9170), new TimeSpan(0, 0, 0, 0, 0)),
+                            DeletedAt = new DateTimeOffset(new DateTime(2025, 3, 16, 1, 32, 27, 713, DateTimeKind.Unspecified).AddTicks(9170), new TimeSpan(0, 0, 0, 0, 0)),
+                            Description = "Bebek giysileri, bebek bakım ürünleri, oyuncaklar, çocuk odası dekorasyonu ve daha fazlası bu kategoride. Bebekler ve çocuklar için en kaliteli ürünler!",
+                            ImageUrl = "/images/categories/bebek-cocuk.png",
+                            IsActive = true,
                             IsDeleted = false,
-                            Name = "Hobi & Eğlence",
-                            UpdatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                            IsMenuItem = false,
+                            Name = "Bebek & Çocuk",
+                            UpdatedAt = new DateTimeOffset(new DateTime(2025, 3, 16, 1, 32, 27, 713, DateTimeKind.Unspecified).AddTicks(9170), new TimeSpan(0, 0, 0, 0, 0))
                         },
                         new
                         {
                             Id = 10,
-                            CreateDate = new DateTime(2025, 2, 8, 12, 5, 10, 305, DateTimeKind.Utc).AddTicks(800),
-                            Description = "Buzdolapları, çamaşır makineleri ve diğer büyük ev aletleri.",
-                            ImageUrl = "/images/categories/beyaz-esya.jpg",
-                            IsActive = true,
-                            IsDeleted = true,
-                            Name = "Beyaz Eşya",
-                            UpdatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                            CreatedAt = new DateTimeOffset(new DateTime(2025, 3, 16, 1, 32, 27, 713, DateTimeKind.Unspecified).AddTicks(9170), new TimeSpan(0, 0, 0, 0, 0)),
+                            DeletedAt = new DateTimeOffset(new DateTime(2025, 3, 16, 1, 32, 27, 713, DateTimeKind.Unspecified).AddTicks(9170), new TimeSpan(0, 0, 0, 0, 0)),
+                            Description = "Araç bakım ürünleri, yedek parçalar, araç içi aksesuarlar ve otomotiv ekipmanları bu kategoride. Araç tutkunları için ihtiyaç duyulan her şey!",
+                            ImageUrl = "/images/categories/otomotiv.png",
+                            IsActive = false,
+                            IsDeleted = false,
+                            IsMenuItem = false,
+                            Name = "Otomotiv",
+                            UpdatedAt = new DateTimeOffset(new DateTime(2025, 3, 16, 1, 32, 27, 713, DateTimeKind.Unspecified).AddTicks(9170), new TimeSpan(0, 0, 0, 0, 0))
                         });
                 });
 
@@ -453,8 +525,11 @@ namespace EShop.Data.Migrations
                     b.Property<string>("City")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("CreateDate")
-                        .HasColumnType("datetime2");
+                    b.Property<DateTimeOffset>("CreatedAt")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<DateTimeOffset>("DeletedAt")
+                        .HasColumnType("datetimeoffset");
 
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
@@ -465,14 +540,276 @@ namespace EShop.Data.Migrations
                     b.Property<int>("OrderStatus")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("UpdatedDate")
-                        .HasColumnType("datetime2");
+                    b.Property<DateTimeOffset>("UpdatedAt")
+                        .HasColumnType("datetimeoffset");
 
                     b.HasKey("Id");
 
                     b.HasIndex("ApplicationUserId");
 
                     b.ToTable("Orders");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Address = "Address 1",
+                            ApplicationUserId = "d2fe392f-4f60-4963-ba3a-ea52b71fb53e",
+                            City = "City 2",
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 10, 12, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 3, 0, 0, 0)),
+                            DeletedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            IsActive = true,
+                            IsDeleted = false,
+                            OrderStatus = 3,
+                            UpdatedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0))
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Address = "Address 2",
+                            ApplicationUserId = "d4757375-a497-496b-85dc-a510027bd9b1",
+                            City = "City 3",
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 12, 27, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 3, 0, 0, 0)),
+                            DeletedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            IsActive = true,
+                            IsDeleted = false,
+                            OrderStatus = 3,
+                            UpdatedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0))
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Address = "Address 3",
+                            ApplicationUserId = "d2fe392f-4f60-4963-ba3a-ea52b71fb53e",
+                            City = "City 4",
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 10, 14, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 3, 0, 0, 0)),
+                            DeletedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            IsActive = true,
+                            IsDeleted = false,
+                            OrderStatus = 3,
+                            UpdatedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0))
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Address = "Address 4",
+                            ApplicationUserId = "d4757375-a497-496b-85dc-a510027bd9b1",
+                            City = "City 5",
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 10, 2, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 3, 0, 0, 0)),
+                            DeletedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            IsActive = true,
+                            IsDeleted = false,
+                            OrderStatus = 3,
+                            UpdatedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0))
+                        },
+                        new
+                        {
+                            Id = 5,
+                            Address = "Address 5",
+                            ApplicationUserId = "d2fe392f-4f60-4963-ba3a-ea52b71fb53e",
+                            City = "City 1",
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 10, 16, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 3, 0, 0, 0)),
+                            DeletedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            IsActive = true,
+                            IsDeleted = false,
+                            OrderStatus = 3,
+                            UpdatedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0))
+                        },
+                        new
+                        {
+                            Id = 6,
+                            Address = "Address 6",
+                            ApplicationUserId = "d2fe392f-4f60-4963-ba3a-ea52b71fb53e",
+                            City = "City 2",
+                            CreatedAt = new DateTimeOffset(new DateTime(2025, 1, 9, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 3, 0, 0, 0)),
+                            DeletedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            IsActive = true,
+                            IsDeleted = false,
+                            OrderStatus = 3,
+                            UpdatedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0))
+                        },
+                        new
+                        {
+                            Id = 7,
+                            Address = "Address 7",
+                            ApplicationUserId = "d4757375-a497-496b-85dc-a510027bd9b1",
+                            City = "City 3",
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 12, 24, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 3, 0, 0, 0)),
+                            DeletedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            IsActive = true,
+                            IsDeleted = false,
+                            OrderStatus = 3,
+                            UpdatedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0))
+                        },
+                        new
+                        {
+                            Id = 8,
+                            Address = "Address 8",
+                            ApplicationUserId = "d4757375-a497-496b-85dc-a510027bd9b1",
+                            City = "City 4",
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 10, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 3, 0, 0, 0)),
+                            DeletedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            IsActive = true,
+                            IsDeleted = false,
+                            OrderStatus = 3,
+                            UpdatedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0))
+                        },
+                        new
+                        {
+                            Id = 9,
+                            Address = "Address 9",
+                            ApplicationUserId = "d4757375-a497-496b-85dc-a510027bd9b1",
+                            City = "City 5",
+                            CreatedAt = new DateTimeOffset(new DateTime(2025, 1, 9, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 3, 0, 0, 0)),
+                            DeletedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            IsActive = true,
+                            IsDeleted = false,
+                            OrderStatus = 3,
+                            UpdatedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0))
+                        },
+                        new
+                        {
+                            Id = 10,
+                            Address = "Address 10",
+                            ApplicationUserId = "d2fe392f-4f60-4963-ba3a-ea52b71fb53e",
+                            City = "City 1",
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 11, 17, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 3, 0, 0, 0)),
+                            DeletedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            IsActive = true,
+                            IsDeleted = false,
+                            OrderStatus = 3,
+                            UpdatedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0))
+                        },
+                        new
+                        {
+                            Id = 11,
+                            Address = "Address 11",
+                            ApplicationUserId = "d4757375-a497-496b-85dc-a510027bd9b1",
+                            City = "City 2",
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 9, 15, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 3, 0, 0, 0)),
+                            DeletedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            IsActive = true,
+                            IsDeleted = false,
+                            OrderStatus = 2,
+                            UpdatedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0))
+                        },
+                        new
+                        {
+                            Id = 12,
+                            Address = "Address 12",
+                            ApplicationUserId = "d2fe392f-4f60-4963-ba3a-ea52b71fb53e",
+                            City = "City 3",
+                            CreatedAt = new DateTimeOffset(new DateTime(2025, 1, 9, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 3, 0, 0, 0)),
+                            DeletedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            IsActive = true,
+                            IsDeleted = false,
+                            OrderStatus = 0,
+                            UpdatedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0))
+                        },
+                        new
+                        {
+                            Id = 13,
+                            Address = "Address 13",
+                            ApplicationUserId = "d2fe392f-4f60-4963-ba3a-ea52b71fb53e",
+                            City = "City 4",
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 11, 13, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 3, 0, 0, 0)),
+                            DeletedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            IsActive = true,
+                            IsDeleted = false,
+                            OrderStatus = 2,
+                            UpdatedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0))
+                        },
+                        new
+                        {
+                            Id = 14,
+                            Address = "Address 14",
+                            ApplicationUserId = "d2fe392f-4f60-4963-ba3a-ea52b71fb53e",
+                            City = "City 5",
+                            CreatedAt = new DateTimeOffset(new DateTime(2025, 2, 5, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 3, 0, 0, 0)),
+                            DeletedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            IsActive = true,
+                            IsDeleted = false,
+                            OrderStatus = 0,
+                            UpdatedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0))
+                        },
+                        new
+                        {
+                            Id = 15,
+                            Address = "Address 15",
+                            ApplicationUserId = "d2fe392f-4f60-4963-ba3a-ea52b71fb53e",
+                            City = "City 1",
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 11, 17, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 3, 0, 0, 0)),
+                            DeletedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            IsActive = true,
+                            IsDeleted = false,
+                            OrderStatus = 0,
+                            UpdatedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0))
+                        },
+                        new
+                        {
+                            Id = 16,
+                            Address = "Address 16",
+                            ApplicationUserId = "d4757375-a497-496b-85dc-a510027bd9b1",
+                            City = "City 2",
+                            CreatedAt = new DateTimeOffset(new DateTime(2025, 2, 4, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 3, 0, 0, 0)),
+                            DeletedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            IsActive = true,
+                            IsDeleted = false,
+                            OrderStatus = 2,
+                            UpdatedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0))
+                        },
+                        new
+                        {
+                            Id = 17,
+                            Address = "Address 17",
+                            ApplicationUserId = "d2fe392f-4f60-4963-ba3a-ea52b71fb53e",
+                            City = "City 3",
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 9, 26, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 3, 0, 0, 0)),
+                            DeletedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            IsActive = true,
+                            IsDeleted = false,
+                            OrderStatus = 1,
+                            UpdatedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0))
+                        },
+                        new
+                        {
+                            Id = 18,
+                            Address = "Address 18",
+                            ApplicationUserId = "d2fe392f-4f60-4963-ba3a-ea52b71fb53e",
+                            City = "City 4",
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 9, 12, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 3, 0, 0, 0)),
+                            DeletedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            IsActive = true,
+                            IsDeleted = false,
+                            OrderStatus = 0,
+                            UpdatedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0))
+                        },
+                        new
+                        {
+                            Id = 19,
+                            Address = "Address 19",
+                            ApplicationUserId = "d4757375-a497-496b-85dc-a510027bd9b1",
+                            City = "City 5",
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 12, 17, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 3, 0, 0, 0)),
+                            DeletedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            IsActive = true,
+                            IsDeleted = false,
+                            OrderStatus = 1,
+                            UpdatedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0))
+                        },
+                        new
+                        {
+                            Id = 20,
+                            Address = "Address 20",
+                            ApplicationUserId = "d2fe392f-4f60-4963-ba3a-ea52b71fb53e",
+                            City = "City 1",
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 11, 28, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 3, 0, 0, 0)),
+                            DeletedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            IsActive = true,
+                            IsDeleted = false,
+                            OrderStatus = 2,
+                            UpdatedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0))
+                        });
                 });
 
             modelBuilder.Entity("EShop.Entity.Concrete.OrderItem", b =>
@@ -483,8 +820,11 @@ namespace EShop.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<DateTime>("CreateDate")
-                        .HasColumnType("datetime2");
+                    b.Property<DateTimeOffset>("CreatedAt")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<DateTimeOffset>("DeletedAt")
+                        .HasColumnType("datetimeoffset");
 
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
@@ -504,8 +844,8 @@ namespace EShop.Data.Migrations
                     b.Property<decimal>("UnitPrice")
                         .HasColumnType("decimal(10,2)");
 
-                    b.Property<DateTime>("UpdatedDate")
-                        .HasColumnType("datetime2");
+                    b.Property<DateTimeOffset>("UpdatedAt")
+                        .HasColumnType("datetimeoffset");
 
                     b.HasKey("Id");
 
@@ -514,6 +854,671 @@ namespace EShop.Data.Migrations
                     b.HasIndex("ProductId");
 
                     b.ToTable("OrderItems");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CreatedAt = new DateTimeOffset(new DateTime(2025, 3, 16, 1, 32, 27, 787, DateTimeKind.Unspecified).AddTicks(4410), new TimeSpan(0, 0, 0, 0, 0)),
+                            DeletedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            IsActive = true,
+                            IsDeleted = false,
+                            OrderId = 1,
+                            ProductId = 11,
+                            Quantity = 1,
+                            UnitPrice = 387m,
+                            UpdatedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0))
+                        },
+                        new
+                        {
+                            Id = 2,
+                            CreatedAt = new DateTimeOffset(new DateTime(2025, 3, 16, 1, 32, 27, 787, DateTimeKind.Unspecified).AddTicks(4420), new TimeSpan(0, 0, 0, 0, 0)),
+                            DeletedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            IsActive = true,
+                            IsDeleted = false,
+                            OrderId = 2,
+                            ProductId = 3,
+                            Quantity = 4,
+                            UnitPrice = 458m,
+                            UpdatedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0))
+                        },
+                        new
+                        {
+                            Id = 3,
+                            CreatedAt = new DateTimeOffset(new DateTime(2025, 3, 16, 1, 32, 27, 787, DateTimeKind.Unspecified).AddTicks(4420), new TimeSpan(0, 0, 0, 0, 0)),
+                            DeletedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            IsActive = true,
+                            IsDeleted = false,
+                            OrderId = 2,
+                            ProductId = 28,
+                            Quantity = 2,
+                            UnitPrice = 163m,
+                            UpdatedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0))
+                        },
+                        new
+                        {
+                            Id = 4,
+                            CreatedAt = new DateTimeOffset(new DateTime(2025, 3, 16, 1, 32, 27, 787, DateTimeKind.Unspecified).AddTicks(4420), new TimeSpan(0, 0, 0, 0, 0)),
+                            DeletedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            IsActive = true,
+                            IsDeleted = false,
+                            OrderId = 2,
+                            ProductId = 30,
+                            Quantity = 2,
+                            UnitPrice = 16m,
+                            UpdatedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0))
+                        },
+                        new
+                        {
+                            Id = 5,
+                            CreatedAt = new DateTimeOffset(new DateTime(2025, 3, 16, 1, 32, 27, 787, DateTimeKind.Unspecified).AddTicks(4420), new TimeSpan(0, 0, 0, 0, 0)),
+                            DeletedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            IsActive = true,
+                            IsDeleted = false,
+                            OrderId = 2,
+                            ProductId = 14,
+                            Quantity = 2,
+                            UnitPrice = 92m,
+                            UpdatedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0))
+                        },
+                        new
+                        {
+                            Id = 6,
+                            CreatedAt = new DateTimeOffset(new DateTime(2025, 3, 16, 1, 32, 27, 787, DateTimeKind.Unspecified).AddTicks(4420), new TimeSpan(0, 0, 0, 0, 0)),
+                            DeletedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            IsActive = true,
+                            IsDeleted = false,
+                            OrderId = 2,
+                            ProductId = 37,
+                            Quantity = 2,
+                            UnitPrice = 221m,
+                            UpdatedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0))
+                        },
+                        new
+                        {
+                            Id = 7,
+                            CreatedAt = new DateTimeOffset(new DateTime(2025, 3, 16, 1, 32, 27, 787, DateTimeKind.Unspecified).AddTicks(4430), new TimeSpan(0, 0, 0, 0, 0)),
+                            DeletedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            IsActive = true,
+                            IsDeleted = false,
+                            OrderId = 3,
+                            ProductId = 27,
+                            Quantity = 1,
+                            UnitPrice = 222m,
+                            UpdatedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0))
+                        },
+                        new
+                        {
+                            Id = 8,
+                            CreatedAt = new DateTimeOffset(new DateTime(2025, 3, 16, 1, 32, 27, 787, DateTimeKind.Unspecified).AddTicks(4430), new TimeSpan(0, 0, 0, 0, 0)),
+                            DeletedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            IsActive = true,
+                            IsDeleted = false,
+                            OrderId = 3,
+                            ProductId = 11,
+                            Quantity = 2,
+                            UnitPrice = 11m,
+                            UpdatedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0))
+                        },
+                        new
+                        {
+                            Id = 9,
+                            CreatedAt = new DateTimeOffset(new DateTime(2025, 3, 16, 1, 32, 27, 787, DateTimeKind.Unspecified).AddTicks(4430), new TimeSpan(0, 0, 0, 0, 0)),
+                            DeletedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            IsActive = true,
+                            IsDeleted = false,
+                            OrderId = 3,
+                            ProductId = 37,
+                            Quantity = 3,
+                            UnitPrice = 365m,
+                            UpdatedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0))
+                        },
+                        new
+                        {
+                            Id = 10,
+                            CreatedAt = new DateTimeOffset(new DateTime(2025, 3, 16, 1, 32, 27, 787, DateTimeKind.Unspecified).AddTicks(4430), new TimeSpan(0, 0, 0, 0, 0)),
+                            DeletedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            IsActive = true,
+                            IsDeleted = false,
+                            OrderId = 3,
+                            ProductId = 40,
+                            Quantity = 1,
+                            UnitPrice = 127m,
+                            UpdatedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0))
+                        },
+                        new
+                        {
+                            Id = 11,
+                            CreatedAt = new DateTimeOffset(new DateTime(2025, 3, 16, 1, 32, 27, 787, DateTimeKind.Unspecified).AddTicks(4430), new TimeSpan(0, 0, 0, 0, 0)),
+                            DeletedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            IsActive = true,
+                            IsDeleted = false,
+                            OrderId = 4,
+                            ProductId = 28,
+                            Quantity = 1,
+                            UnitPrice = 43m,
+                            UpdatedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0))
+                        },
+                        new
+                        {
+                            Id = 12,
+                            CreatedAt = new DateTimeOffset(new DateTime(2025, 3, 16, 1, 32, 27, 787, DateTimeKind.Unspecified).AddTicks(4440), new TimeSpan(0, 0, 0, 0, 0)),
+                            DeletedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            IsActive = true,
+                            IsDeleted = false,
+                            OrderId = 4,
+                            ProductId = 17,
+                            Quantity = 4,
+                            UnitPrice = 330m,
+                            UpdatedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0))
+                        },
+                        new
+                        {
+                            Id = 13,
+                            CreatedAt = new DateTimeOffset(new DateTime(2025, 3, 16, 1, 32, 27, 787, DateTimeKind.Unspecified).AddTicks(4440), new TimeSpan(0, 0, 0, 0, 0)),
+                            DeletedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            IsActive = true,
+                            IsDeleted = false,
+                            OrderId = 5,
+                            ProductId = 39,
+                            Quantity = 2,
+                            UnitPrice = 273m,
+                            UpdatedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0))
+                        },
+                        new
+                        {
+                            Id = 14,
+                            CreatedAt = new DateTimeOffset(new DateTime(2025, 3, 16, 1, 32, 27, 787, DateTimeKind.Unspecified).AddTicks(4490), new TimeSpan(0, 0, 0, 0, 0)),
+                            DeletedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            IsActive = true,
+                            IsDeleted = false,
+                            OrderId = 6,
+                            ProductId = 12,
+                            Quantity = 4,
+                            UnitPrice = 456m,
+                            UpdatedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0))
+                        },
+                        new
+                        {
+                            Id = 15,
+                            CreatedAt = new DateTimeOffset(new DateTime(2025, 3, 16, 1, 32, 27, 787, DateTimeKind.Unspecified).AddTicks(4490), new TimeSpan(0, 0, 0, 0, 0)),
+                            DeletedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            IsActive = true,
+                            IsDeleted = false,
+                            OrderId = 6,
+                            ProductId = 23,
+                            Quantity = 4,
+                            UnitPrice = 175m,
+                            UpdatedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0))
+                        },
+                        new
+                        {
+                            Id = 16,
+                            CreatedAt = new DateTimeOffset(new DateTime(2025, 3, 16, 1, 32, 27, 787, DateTimeKind.Unspecified).AddTicks(4490), new TimeSpan(0, 0, 0, 0, 0)),
+                            DeletedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            IsActive = true,
+                            IsDeleted = false,
+                            OrderId = 6,
+                            ProductId = 28,
+                            Quantity = 1,
+                            UnitPrice = 351m,
+                            UpdatedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0))
+                        },
+                        new
+                        {
+                            Id = 17,
+                            CreatedAt = new DateTimeOffset(new DateTime(2025, 3, 16, 1, 32, 27, 787, DateTimeKind.Unspecified).AddTicks(4500), new TimeSpan(0, 0, 0, 0, 0)),
+                            DeletedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            IsActive = true,
+                            IsDeleted = false,
+                            OrderId = 7,
+                            ProductId = 17,
+                            Quantity = 1,
+                            UnitPrice = 96m,
+                            UpdatedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0))
+                        },
+                        new
+                        {
+                            Id = 18,
+                            CreatedAt = new DateTimeOffset(new DateTime(2025, 3, 16, 1, 32, 27, 787, DateTimeKind.Unspecified).AddTicks(4500), new TimeSpan(0, 0, 0, 0, 0)),
+                            DeletedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            IsActive = true,
+                            IsDeleted = false,
+                            OrderId = 7,
+                            ProductId = 26,
+                            Quantity = 4,
+                            UnitPrice = 227m,
+                            UpdatedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0))
+                        },
+                        new
+                        {
+                            Id = 19,
+                            CreatedAt = new DateTimeOffset(new DateTime(2025, 3, 16, 1, 32, 27, 787, DateTimeKind.Unspecified).AddTicks(4510), new TimeSpan(0, 0, 0, 0, 0)),
+                            DeletedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            IsActive = true,
+                            IsDeleted = false,
+                            OrderId = 8,
+                            ProductId = 15,
+                            Quantity = 1,
+                            UnitPrice = 481m,
+                            UpdatedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0))
+                        },
+                        new
+                        {
+                            Id = 20,
+                            CreatedAt = new DateTimeOffset(new DateTime(2025, 3, 16, 1, 32, 27, 787, DateTimeKind.Unspecified).AddTicks(4510), new TimeSpan(0, 0, 0, 0, 0)),
+                            DeletedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            IsActive = true,
+                            IsDeleted = false,
+                            OrderId = 8,
+                            ProductId = 20,
+                            Quantity = 4,
+                            UnitPrice = 367m,
+                            UpdatedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0))
+                        },
+                        new
+                        {
+                            Id = 21,
+                            CreatedAt = new DateTimeOffset(new DateTime(2025, 3, 16, 1, 32, 27, 787, DateTimeKind.Unspecified).AddTicks(4510), new TimeSpan(0, 0, 0, 0, 0)),
+                            DeletedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            IsActive = true,
+                            IsDeleted = false,
+                            OrderId = 8,
+                            ProductId = 20,
+                            Quantity = 1,
+                            UnitPrice = 187m,
+                            UpdatedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0))
+                        },
+                        new
+                        {
+                            Id = 22,
+                            CreatedAt = new DateTimeOffset(new DateTime(2025, 3, 16, 1, 32, 27, 787, DateTimeKind.Unspecified).AddTicks(4510), new TimeSpan(0, 0, 0, 0, 0)),
+                            DeletedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            IsActive = true,
+                            IsDeleted = false,
+                            OrderId = 9,
+                            ProductId = 30,
+                            Quantity = 5,
+                            UnitPrice = 302m,
+                            UpdatedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0))
+                        },
+                        new
+                        {
+                            Id = 23,
+                            CreatedAt = new DateTimeOffset(new DateTime(2025, 3, 16, 1, 32, 27, 787, DateTimeKind.Unspecified).AddTicks(4520), new TimeSpan(0, 0, 0, 0, 0)),
+                            DeletedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            IsActive = true,
+                            IsDeleted = false,
+                            OrderId = 10,
+                            ProductId = 25,
+                            Quantity = 4,
+                            UnitPrice = 81m,
+                            UpdatedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0))
+                        },
+                        new
+                        {
+                            Id = 24,
+                            CreatedAt = new DateTimeOffset(new DateTime(2025, 3, 16, 1, 32, 27, 787, DateTimeKind.Unspecified).AddTicks(4520), new TimeSpan(0, 0, 0, 0, 0)),
+                            DeletedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            IsActive = true,
+                            IsDeleted = false,
+                            OrderId = 10,
+                            ProductId = 1,
+                            Quantity = 1,
+                            UnitPrice = 243m,
+                            UpdatedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0))
+                        },
+                        new
+                        {
+                            Id = 25,
+                            CreatedAt = new DateTimeOffset(new DateTime(2025, 3, 16, 1, 32, 27, 787, DateTimeKind.Unspecified).AddTicks(4520), new TimeSpan(0, 0, 0, 0, 0)),
+                            DeletedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            IsActive = true,
+                            IsDeleted = false,
+                            OrderId = 10,
+                            ProductId = 30,
+                            Quantity = 1,
+                            UnitPrice = 420m,
+                            UpdatedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0))
+                        },
+                        new
+                        {
+                            Id = 26,
+                            CreatedAt = new DateTimeOffset(new DateTime(2025, 3, 16, 1, 32, 27, 787, DateTimeKind.Unspecified).AddTicks(4530), new TimeSpan(0, 0, 0, 0, 0)),
+                            DeletedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            IsActive = true,
+                            IsDeleted = false,
+                            OrderId = 11,
+                            ProductId = 7,
+                            Quantity = 1,
+                            UnitPrice = 354m,
+                            UpdatedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0))
+                        },
+                        new
+                        {
+                            Id = 27,
+                            CreatedAt = new DateTimeOffset(new DateTime(2025, 3, 16, 1, 32, 27, 787, DateTimeKind.Unspecified).AddTicks(4530), new TimeSpan(0, 0, 0, 0, 0)),
+                            DeletedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            IsActive = true,
+                            IsDeleted = false,
+                            OrderId = 11,
+                            ProductId = 4,
+                            Quantity = 2,
+                            UnitPrice = 110m,
+                            UpdatedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0))
+                        },
+                        new
+                        {
+                            Id = 28,
+                            CreatedAt = new DateTimeOffset(new DateTime(2025, 3, 16, 1, 32, 27, 787, DateTimeKind.Unspecified).AddTicks(4540), new TimeSpan(0, 0, 0, 0, 0)),
+                            DeletedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            IsActive = true,
+                            IsDeleted = false,
+                            OrderId = 12,
+                            ProductId = 35,
+                            Quantity = 1,
+                            UnitPrice = 385m,
+                            UpdatedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0))
+                        },
+                        new
+                        {
+                            Id = 29,
+                            CreatedAt = new DateTimeOffset(new DateTime(2025, 3, 16, 1, 32, 27, 787, DateTimeKind.Unspecified).AddTicks(4540), new TimeSpan(0, 0, 0, 0, 0)),
+                            DeletedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            IsActive = true,
+                            IsDeleted = false,
+                            OrderId = 12,
+                            ProductId = 8,
+                            Quantity = 5,
+                            UnitPrice = 496m,
+                            UpdatedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0))
+                        },
+                        new
+                        {
+                            Id = 30,
+                            CreatedAt = new DateTimeOffset(new DateTime(2025, 3, 16, 1, 32, 27, 787, DateTimeKind.Unspecified).AddTicks(4540), new TimeSpan(0, 0, 0, 0, 0)),
+                            DeletedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            IsActive = true,
+                            IsDeleted = false,
+                            OrderId = 12,
+                            ProductId = 40,
+                            Quantity = 2,
+                            UnitPrice = 17m,
+                            UpdatedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0))
+                        },
+                        new
+                        {
+                            Id = 31,
+                            CreatedAt = new DateTimeOffset(new DateTime(2025, 3, 16, 1, 32, 27, 787, DateTimeKind.Unspecified).AddTicks(4540), new TimeSpan(0, 0, 0, 0, 0)),
+                            DeletedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            IsActive = true,
+                            IsDeleted = false,
+                            OrderId = 12,
+                            ProductId = 14,
+                            Quantity = 1,
+                            UnitPrice = 122m,
+                            UpdatedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0))
+                        },
+                        new
+                        {
+                            Id = 32,
+                            CreatedAt = new DateTimeOffset(new DateTime(2025, 3, 16, 1, 32, 27, 787, DateTimeKind.Unspecified).AddTicks(4540), new TimeSpan(0, 0, 0, 0, 0)),
+                            DeletedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            IsActive = true,
+                            IsDeleted = false,
+                            OrderId = 13,
+                            ProductId = 16,
+                            Quantity = 5,
+                            UnitPrice = 95m,
+                            UpdatedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0))
+                        },
+                        new
+                        {
+                            Id = 33,
+                            CreatedAt = new DateTimeOffset(new DateTime(2025, 3, 16, 1, 32, 27, 787, DateTimeKind.Unspecified).AddTicks(4550), new TimeSpan(0, 0, 0, 0, 0)),
+                            DeletedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            IsActive = true,
+                            IsDeleted = false,
+                            OrderId = 13,
+                            ProductId = 9,
+                            Quantity = 4,
+                            UnitPrice = 15m,
+                            UpdatedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0))
+                        },
+                        new
+                        {
+                            Id = 34,
+                            CreatedAt = new DateTimeOffset(new DateTime(2025, 3, 16, 1, 32, 27, 787, DateTimeKind.Unspecified).AddTicks(4550), new TimeSpan(0, 0, 0, 0, 0)),
+                            DeletedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            IsActive = true,
+                            IsDeleted = false,
+                            OrderId = 13,
+                            ProductId = 21,
+                            Quantity = 1,
+                            UnitPrice = 114m,
+                            UpdatedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0))
+                        },
+                        new
+                        {
+                            Id = 35,
+                            CreatedAt = new DateTimeOffset(new DateTime(2025, 3, 16, 1, 32, 27, 787, DateTimeKind.Unspecified).AddTicks(4550), new TimeSpan(0, 0, 0, 0, 0)),
+                            DeletedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            IsActive = true,
+                            IsDeleted = false,
+                            OrderId = 13,
+                            ProductId = 30,
+                            Quantity = 5,
+                            UnitPrice = 301m,
+                            UpdatedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0))
+                        },
+                        new
+                        {
+                            Id = 36,
+                            CreatedAt = new DateTimeOffset(new DateTime(2025, 3, 16, 1, 32, 27, 787, DateTimeKind.Unspecified).AddTicks(4550), new TimeSpan(0, 0, 0, 0, 0)),
+                            DeletedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            IsActive = true,
+                            IsDeleted = false,
+                            OrderId = 14,
+                            ProductId = 21,
+                            Quantity = 4,
+                            UnitPrice = 268m,
+                            UpdatedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0))
+                        },
+                        new
+                        {
+                            Id = 37,
+                            CreatedAt = new DateTimeOffset(new DateTime(2025, 3, 16, 1, 32, 27, 787, DateTimeKind.Unspecified).AddTicks(4550), new TimeSpan(0, 0, 0, 0, 0)),
+                            DeletedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            IsActive = true,
+                            IsDeleted = false,
+                            OrderId = 14,
+                            ProductId = 20,
+                            Quantity = 5,
+                            UnitPrice = 122m,
+                            UpdatedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0))
+                        },
+                        new
+                        {
+                            Id = 38,
+                            CreatedAt = new DateTimeOffset(new DateTime(2025, 3, 16, 1, 32, 27, 787, DateTimeKind.Unspecified).AddTicks(4550), new TimeSpan(0, 0, 0, 0, 0)),
+                            DeletedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            IsActive = true,
+                            IsDeleted = false,
+                            OrderId = 14,
+                            ProductId = 38,
+                            Quantity = 4,
+                            UnitPrice = 67m,
+                            UpdatedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0))
+                        },
+                        new
+                        {
+                            Id = 39,
+                            CreatedAt = new DateTimeOffset(new DateTime(2025, 3, 16, 1, 32, 27, 787, DateTimeKind.Unspecified).AddTicks(4560), new TimeSpan(0, 0, 0, 0, 0)),
+                            DeletedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            IsActive = true,
+                            IsDeleted = false,
+                            OrderId = 15,
+                            ProductId = 31,
+                            Quantity = 1,
+                            UnitPrice = 141m,
+                            UpdatedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0))
+                        },
+                        new
+                        {
+                            Id = 40,
+                            CreatedAt = new DateTimeOffset(new DateTime(2025, 3, 16, 1, 32, 27, 787, DateTimeKind.Unspecified).AddTicks(4560), new TimeSpan(0, 0, 0, 0, 0)),
+                            DeletedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            IsActive = true,
+                            IsDeleted = false,
+                            OrderId = 15,
+                            ProductId = 3,
+                            Quantity = 2,
+                            UnitPrice = 481m,
+                            UpdatedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0))
+                        },
+                        new
+                        {
+                            Id = 41,
+                            CreatedAt = new DateTimeOffset(new DateTime(2025, 3, 16, 1, 32, 27, 787, DateTimeKind.Unspecified).AddTicks(4570), new TimeSpan(0, 0, 0, 0, 0)),
+                            DeletedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            IsActive = true,
+                            IsDeleted = false,
+                            OrderId = 16,
+                            ProductId = 16,
+                            Quantity = 2,
+                            UnitPrice = 278m,
+                            UpdatedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0))
+                        },
+                        new
+                        {
+                            Id = 42,
+                            CreatedAt = new DateTimeOffset(new DateTime(2025, 3, 16, 1, 32, 27, 787, DateTimeKind.Unspecified).AddTicks(4570), new TimeSpan(0, 0, 0, 0, 0)),
+                            DeletedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            IsActive = true,
+                            IsDeleted = false,
+                            OrderId = 17,
+                            ProductId = 30,
+                            Quantity = 2,
+                            UnitPrice = 261m,
+                            UpdatedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0))
+                        },
+                        new
+                        {
+                            Id = 43,
+                            CreatedAt = new DateTimeOffset(new DateTime(2025, 3, 16, 1, 32, 27, 787, DateTimeKind.Unspecified).AddTicks(4580), new TimeSpan(0, 0, 0, 0, 0)),
+                            DeletedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            IsActive = true,
+                            IsDeleted = false,
+                            OrderId = 18,
+                            ProductId = 35,
+                            Quantity = 5,
+                            UnitPrice = 64m,
+                            UpdatedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0))
+                        },
+                        new
+                        {
+                            Id = 44,
+                            CreatedAt = new DateTimeOffset(new DateTime(2025, 3, 16, 1, 32, 27, 787, DateTimeKind.Unspecified).AddTicks(4580), new TimeSpan(0, 0, 0, 0, 0)),
+                            DeletedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            IsActive = true,
+                            IsDeleted = false,
+                            OrderId = 18,
+                            ProductId = 33,
+                            Quantity = 4,
+                            UnitPrice = 41m,
+                            UpdatedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0))
+                        },
+                        new
+                        {
+                            Id = 45,
+                            CreatedAt = new DateTimeOffset(new DateTime(2025, 3, 16, 1, 32, 27, 787, DateTimeKind.Unspecified).AddTicks(4580), new TimeSpan(0, 0, 0, 0, 0)),
+                            DeletedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            IsActive = true,
+                            IsDeleted = false,
+                            OrderId = 18,
+                            ProductId = 27,
+                            Quantity = 3,
+                            UnitPrice = 389m,
+                            UpdatedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0))
+                        },
+                        new
+                        {
+                            Id = 46,
+                            CreatedAt = new DateTimeOffset(new DateTime(2025, 3, 16, 1, 32, 27, 787, DateTimeKind.Unspecified).AddTicks(4580), new TimeSpan(0, 0, 0, 0, 0)),
+                            DeletedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            IsActive = true,
+                            IsDeleted = false,
+                            OrderId = 18,
+                            ProductId = 12,
+                            Quantity = 4,
+                            UnitPrice = 91m,
+                            UpdatedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0))
+                        },
+                        new
+                        {
+                            Id = 47,
+                            CreatedAt = new DateTimeOffset(new DateTime(2025, 3, 16, 1, 32, 27, 787, DateTimeKind.Unspecified).AddTicks(4590), new TimeSpan(0, 0, 0, 0, 0)),
+                            DeletedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            IsActive = true,
+                            IsDeleted = false,
+                            OrderId = 19,
+                            ProductId = 6,
+                            Quantity = 1,
+                            UnitPrice = 201m,
+                            UpdatedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0))
+                        },
+                        new
+                        {
+                            Id = 48,
+                            CreatedAt = new DateTimeOffset(new DateTime(2025, 3, 16, 1, 32, 27, 787, DateTimeKind.Unspecified).AddTicks(4600), new TimeSpan(0, 0, 0, 0, 0)),
+                            DeletedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            IsActive = true,
+                            IsDeleted = false,
+                            OrderId = 20,
+                            ProductId = 19,
+                            Quantity = 5,
+                            UnitPrice = 441m,
+                            UpdatedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0))
+                        },
+                        new
+                        {
+                            Id = 49,
+                            CreatedAt = new DateTimeOffset(new DateTime(2025, 3, 16, 1, 32, 27, 787, DateTimeKind.Unspecified).AddTicks(4600), new TimeSpan(0, 0, 0, 0, 0)),
+                            DeletedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            IsActive = true,
+                            IsDeleted = false,
+                            OrderId = 20,
+                            ProductId = 3,
+                            Quantity = 1,
+                            UnitPrice = 285m,
+                            UpdatedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0))
+                        },
+                        new
+                        {
+                            Id = 50,
+                            CreatedAt = new DateTimeOffset(new DateTime(2025, 3, 16, 1, 32, 27, 787, DateTimeKind.Unspecified).AddTicks(4600), new TimeSpan(0, 0, 0, 0, 0)),
+                            DeletedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            IsActive = true,
+                            IsDeleted = false,
+                            OrderId = 20,
+                            ProductId = 2,
+                            Quantity = 5,
+                            UnitPrice = 363m,
+                            UpdatedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0))
+                        },
+                        new
+                        {
+                            Id = 51,
+                            CreatedAt = new DateTimeOffset(new DateTime(2025, 3, 16, 1, 32, 27, 787, DateTimeKind.Unspecified).AddTicks(4600), new TimeSpan(0, 0, 0, 0, 0)),
+                            DeletedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            IsActive = true,
+                            IsDeleted = false,
+                            OrderId = 20,
+                            ProductId = 32,
+                            Quantity = 1,
+                            UnitPrice = 250m,
+                            UpdatedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0))
+                        });
                 });
 
             modelBuilder.Entity("EShop.Entity.Concrete.Product", b =>
@@ -524,8 +1529,11 @@ namespace EShop.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<DateTime>("CreateDate")
-                        .HasColumnType("datetime2");
+                    b.Property<DateTimeOffset>("CreatedAt")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<DateTimeOffset>("DeletedAt")
+                        .HasColumnType("datetimeoffset");
 
                     b.Property<string>("ImageUrl")
                         .IsRequired()
@@ -535,6 +1543,9 @@ namespace EShop.Data.Migrations
                         .HasColumnType("bit");
 
                     b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsHome")
                         .HasColumnType("bit");
 
                     b.Property<string>("Name")
@@ -548,8 +1559,8 @@ namespace EShop.Data.Migrations
                     b.Property<string>("Properties")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("UpdatedDate")
-                        .HasColumnType("datetime2");
+                    b.Property<DateTimeOffset>("UpdatedAt")
+                        .HasColumnType("datetimeoffset");
 
                     b.HasKey("Id");
 
@@ -559,1202 +1570,562 @@ namespace EShop.Data.Migrations
                         new
                         {
                             Id = 1,
-                            CreateDate = new DateTime(2025, 2, 8, 12, 5, 10, 305, DateTimeKind.Utc).AddTicks(1697),
-                            ImageUrl = "/images/products/laptop.jpg",
+                            CreatedAt = new DateTimeOffset(new DateTime(2025, 3, 16, 1, 32, 27, 713, DateTimeKind.Unspecified).AddTicks(9590), new TimeSpan(0, 0, 0, 0, 0)),
+                            DeletedAt = new DateTimeOffset(new DateTime(2025, 3, 16, 1, 32, 27, 713, DateTimeKind.Unspecified).AddTicks(9590), new TimeSpan(0, 0, 0, 0, 0)),
+                            ImageUrl = "/images/products/laptop.png",
                             IsActive = true,
                             IsDeleted = false,
-                            Name = "Laptop",
+                            IsHome = false,
+                            Name = "Dizüstü Bilgisayar",
                             Price = 1500.00m,
-                            Properties = "16GB RAM, 512GB SSD",
-                            UpdatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                            Properties = "16GB RAM, 512GB SSD, Intel i7 İşlemci",
+                            UpdatedAt = new DateTimeOffset(new DateTime(2025, 3, 16, 1, 32, 27, 713, DateTimeKind.Unspecified).AddTicks(9590), new TimeSpan(0, 0, 0, 0, 0))
                         },
                         new
                         {
                             Id = 2,
-                            CreateDate = new DateTime(2025, 2, 8, 12, 5, 10, 305, DateTimeKind.Utc).AddTicks(1701),
-                            ImageUrl = "/images/products/smartphone.jpg",
+                            CreatedAt = new DateTimeOffset(new DateTime(2025, 3, 16, 1, 32, 27, 713, DateTimeKind.Unspecified).AddTicks(9640), new TimeSpan(0, 0, 0, 0, 0)),
+                            DeletedAt = new DateTimeOffset(new DateTime(2025, 3, 16, 1, 32, 27, 713, DateTimeKind.Unspecified).AddTicks(9640), new TimeSpan(0, 0, 0, 0, 0)),
+                            ImageUrl = "/images/products/smartphone.png",
                             IsActive = true,
                             IsDeleted = false,
-                            Name = "Smartphone",
+                            IsHome = false,
+                            Name = "Akıllı Telefon",
                             Price = 800.00m,
-                            Properties = "128GB Storage, 6GB RAM",
-                            UpdatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                            Properties = "128GB Depolama, 6GB RAM, 5G Desteği",
+                            UpdatedAt = new DateTimeOffset(new DateTime(2025, 3, 16, 1, 32, 27, 713, DateTimeKind.Unspecified).AddTicks(9640), new TimeSpan(0, 0, 0, 0, 0))
                         },
                         new
                         {
                             Id = 3,
-                            CreateDate = new DateTime(2025, 2, 8, 12, 5, 10, 305, DateTimeKind.Utc).AddTicks(1703),
-                            ImageUrl = "/images/products/tshirt.jpg",
+                            CreatedAt = new DateTimeOffset(new DateTime(2025, 3, 16, 1, 32, 27, 713, DateTimeKind.Unspecified).AddTicks(9640), new TimeSpan(0, 0, 0, 0, 0)),
+                            DeletedAt = new DateTimeOffset(new DateTime(2025, 3, 16, 1, 32, 27, 713, DateTimeKind.Unspecified).AddTicks(9640), new TimeSpan(0, 0, 0, 0, 0)),
+                            ImageUrl = "/images/products/tablet.png",
                             IsActive = true,
                             IsDeleted = false,
-                            Name = "T-Shirt",
-                            Price = 20.00m,
-                            Properties = "100% Cotton, Size M",
-                            UpdatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                            IsHome = false,
+                            Name = "Tablet",
+                            Price = 600.00m,
+                            Properties = "10.5 inç Ekran, 256GB Depolama, Kalem Desteği",
+                            UpdatedAt = new DateTimeOffset(new DateTime(2025, 3, 16, 1, 32, 27, 713, DateTimeKind.Unspecified).AddTicks(9640), new TimeSpan(0, 0, 0, 0, 0))
                         },
                         new
                         {
                             Id = 4,
-                            CreateDate = new DateTime(2025, 2, 8, 12, 5, 10, 305, DateTimeKind.Utc).AddTicks(1704),
-                            ImageUrl = "/images/products/running_shoes.jpg",
+                            CreatedAt = new DateTimeOffset(new DateTime(2025, 3, 16, 1, 32, 27, 713, DateTimeKind.Unspecified).AddTicks(9640), new TimeSpan(0, 0, 0, 0, 0)),
+                            DeletedAt = new DateTimeOffset(new DateTime(2025, 3, 16, 1, 32, 27, 713, DateTimeKind.Unspecified).AddTicks(9640), new TimeSpan(0, 0, 0, 0, 0)),
+                            ImageUrl = "/images/products/smartwatch.png",
                             IsActive = true,
                             IsDeleted = false,
-                            Name = "Running Shoes",
-                            Price = 60.00m,
-                            Properties = "Size 42, Black",
-                            UpdatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                            IsHome = false,
+                            Name = "Akıllı Saat",
+                            Price = 250.00m,
+                            Properties = "GPS, Kalp Atışı Ölçer, Suya Dayanıklı",
+                            UpdatedAt = new DateTimeOffset(new DateTime(2025, 3, 16, 1, 32, 27, 713, DateTimeKind.Unspecified).AddTicks(9640), new TimeSpan(0, 0, 0, 0, 0))
                         },
                         new
                         {
                             Id = 5,
-                            CreateDate = new DateTime(2025, 2, 8, 12, 5, 10, 305, DateTimeKind.Utc).AddTicks(1706),
-                            ImageUrl = "/images/products/refrigerator.jpg",
-                            IsActive = true,
+                            CreatedAt = new DateTimeOffset(new DateTime(2025, 3, 16, 1, 32, 27, 713, DateTimeKind.Unspecified).AddTicks(9640), new TimeSpan(0, 0, 0, 0, 0)),
+                            DeletedAt = new DateTimeOffset(new DateTime(2025, 3, 16, 1, 32, 27, 713, DateTimeKind.Unspecified).AddTicks(9640), new TimeSpan(0, 0, 0, 0, 0)),
+                            ImageUrl = "/images/products/earbuds.png",
+                            IsActive = false,
                             IsDeleted = false,
-                            Name = "Refrigerator",
-                            Price = 500.00m,
-                            Properties = "300L, Energy Class A++",
-                            UpdatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                            IsHome = false,
+                            Name = "Kablosuz Kulaklık",
+                            Price = 150.00m,
+                            Properties = "Gürültü Önleyici, 20 Saat Pil Ömrü",
+                            UpdatedAt = new DateTimeOffset(new DateTime(2025, 3, 16, 1, 32, 27, 713, DateTimeKind.Unspecified).AddTicks(9640), new TimeSpan(0, 0, 0, 0, 0))
                         },
                         new
                         {
                             Id = 6,
-                            CreateDate = new DateTime(2025, 2, 8, 12, 5, 10, 305, DateTimeKind.Utc).AddTicks(1707),
-                            ImageUrl = "/images/products/novel_book.jpg",
+                            CreatedAt = new DateTimeOffset(new DateTime(2025, 3, 16, 1, 32, 27, 713, DateTimeKind.Unspecified).AddTicks(9640), new TimeSpan(0, 0, 0, 0, 0)),
+                            DeletedAt = new DateTimeOffset(new DateTime(2025, 3, 16, 1, 32, 27, 713, DateTimeKind.Unspecified).AddTicks(9640), new TimeSpan(0, 0, 0, 0, 0)),
+                            ImageUrl = "/images/products/men-jacket.png",
                             IsActive = true,
                             IsDeleted = false,
-                            Name = "Novel Book",
-                            Price = 15.00m,
-                            Properties = "Fiction, 300 pages",
-                            UpdatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                            IsHome = false,
+                            Name = "Erkek Ceket",
+                            Price = 120.00m,
+                            Properties = "Slim Fit, Kumaş Ceket",
+                            UpdatedAt = new DateTimeOffset(new DateTime(2025, 3, 16, 1, 32, 27, 713, DateTimeKind.Unspecified).AddTicks(9640), new TimeSpan(0, 0, 0, 0, 0))
                         },
                         new
                         {
                             Id = 7,
-                            CreateDate = new DateTime(2025, 2, 8, 12, 5, 10, 305, DateTimeKind.Utc).AddTicks(1709),
-                            ImageUrl = "/images/products/face_cream.jpg",
+                            CreatedAt = new DateTimeOffset(new DateTime(2025, 3, 16, 1, 32, 27, 713, DateTimeKind.Unspecified).AddTicks(9640), new TimeSpan(0, 0, 0, 0, 0)),
+                            DeletedAt = new DateTimeOffset(new DateTime(2025, 3, 16, 1, 32, 27, 713, DateTimeKind.Unspecified).AddTicks(9640), new TimeSpan(0, 0, 0, 0, 0)),
+                            ImageUrl = "/images/products/women-dress.png",
                             IsActive = true,
                             IsDeleted = false,
-                            Name = "Face Cream",
-                            Price = 25.00m,
-                            Properties = "50ml, Anti-aging",
-                            UpdatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                            IsHome = false,
+                            Name = "Kadın Elbise",
+                            Price = 80.00m,
+                            Properties = "Yazlık Desenli, Pamuklu",
+                            UpdatedAt = new DateTimeOffset(new DateTime(2025, 3, 16, 1, 32, 27, 713, DateTimeKind.Unspecified).AddTicks(9640), new TimeSpan(0, 0, 0, 0, 0))
                         },
                         new
                         {
                             Id = 8,
-                            CreateDate = new DateTime(2025, 2, 8, 12, 5, 10, 305, DateTimeKind.Utc).AddTicks(1710),
-                            ImageUrl = "/images/products/organic_apple.jpg",
+                            CreatedAt = new DateTimeOffset(new DateTime(2025, 3, 16, 1, 32, 27, 713, DateTimeKind.Unspecified).AddTicks(9650), new TimeSpan(0, 0, 0, 0, 0)),
+                            DeletedAt = new DateTimeOffset(new DateTime(2025, 3, 16, 1, 32, 27, 713, DateTimeKind.Unspecified).AddTicks(9650), new TimeSpan(0, 0, 0, 0, 0)),
+                            ImageUrl = "/images/products/sneakers.png",
                             IsActive = true,
                             IsDeleted = false,
-                            Name = "Organic Apple",
-                            Price = 3.00m,
-                            Properties = "1kg, Fresh",
-                            UpdatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                            IsHome = false,
+                            Name = "Spor Ayakkabı",
+                            Price = 90.00m,
+                            Properties = "Hafif, Nefes Alabilir Taban",
+                            UpdatedAt = new DateTimeOffset(new DateTime(2025, 3, 16, 1, 32, 27, 713, DateTimeKind.Unspecified).AddTicks(9650), new TimeSpan(0, 0, 0, 0, 0))
                         },
                         new
                         {
                             Id = 9,
-                            CreateDate = new DateTime(2025, 2, 8, 12, 5, 10, 305, DateTimeKind.Utc).AddTicks(1712),
-                            ImageUrl = "/images/products/guitar.jpg",
+                            CreatedAt = new DateTimeOffset(new DateTime(2025, 3, 16, 1, 32, 27, 713, DateTimeKind.Unspecified).AddTicks(9650), new TimeSpan(0, 0, 0, 0, 0)),
+                            DeletedAt = new DateTimeOffset(new DateTime(2025, 3, 16, 1, 32, 27, 713, DateTimeKind.Unspecified).AddTicks(9650), new TimeSpan(0, 0, 0, 0, 0)),
+                            ImageUrl = "/images/products/bag.png",
                             IsActive = true,
                             IsDeleted = false,
-                            Name = "Guitar",
-                            Price = 120.00m,
-                            Properties = "Acoustic, 6 strings",
-                            UpdatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                            IsHome = false,
+                            Name = "Çanta",
+                            Price = 70.00m,
+                            Properties = "Deri, Günlük Kullanım",
+                            UpdatedAt = new DateTimeOffset(new DateTime(2025, 3, 16, 1, 32, 27, 713, DateTimeKind.Unspecified).AddTicks(9650), new TimeSpan(0, 0, 0, 0, 0))
                         },
                         new
                         {
                             Id = 10,
-                            CreateDate = new DateTime(2025, 2, 8, 12, 5, 10, 305, DateTimeKind.Utc).AddTicks(1713),
-                            ImageUrl = "/images/products/car_tire.jpg",
-                            IsActive = true,
+                            CreatedAt = new DateTimeOffset(new DateTime(2025, 3, 16, 1, 32, 27, 713, DateTimeKind.Unspecified).AddTicks(9650), new TimeSpan(0, 0, 0, 0, 0)),
+                            DeletedAt = new DateTimeOffset(new DateTime(2025, 3, 16, 1, 32, 27, 713, DateTimeKind.Unspecified).AddTicks(9650), new TimeSpan(0, 0, 0, 0, 0)),
+                            ImageUrl = "/images/products/sunglasses.png",
+                            IsActive = false,
                             IsDeleted = false,
-                            Name = "Car Tire",
-                            Price = 70.00m,
-                            Properties = "195/65 R15",
-                            UpdatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                            IsHome = false,
+                            Name = "Güneş Gözlüğü",
+                            Price = 50.00m,
+                            Properties = "UV Koruma, Polarize Cam",
+                            UpdatedAt = new DateTimeOffset(new DateTime(2025, 3, 16, 1, 32, 27, 713, DateTimeKind.Unspecified).AddTicks(9650), new TimeSpan(0, 0, 0, 0, 0))
                         },
                         new
                         {
                             Id = 11,
-                            CreateDate = new DateTime(2025, 2, 8, 12, 5, 10, 305, DateTimeKind.Utc).AddTicks(1715),
-                            ImageUrl = "/images/products/smartwatch.jpg",
+                            CreatedAt = new DateTimeOffset(new DateTime(2025, 3, 16, 1, 32, 27, 713, DateTimeKind.Unspecified).AddTicks(9650), new TimeSpan(0, 0, 0, 0, 0)),
+                            DeletedAt = new DateTimeOffset(new DateTime(2025, 3, 16, 1, 32, 27, 713, DateTimeKind.Unspecified).AddTicks(9650), new TimeSpan(0, 0, 0, 0, 0)),
+                            ImageUrl = "/images/products/dinner-set.png",
                             IsActive = true,
                             IsDeleted = false,
-                            Name = "Smartwatch",
-                            Price = 200.00m,
-                            Properties = "Heart Rate Monitor, GPS",
-                            UpdatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                            IsHome = false,
+                            Name = "Yemek Takımı",
+                            Price = 100.00m,
+                            Properties = "12 Parça, Porselen",
+                            UpdatedAt = new DateTimeOffset(new DateTime(2025, 3, 16, 1, 32, 27, 713, DateTimeKind.Unspecified).AddTicks(9650), new TimeSpan(0, 0, 0, 0, 0))
                         },
                         new
                         {
                             Id = 12,
-                            CreateDate = new DateTime(2025, 2, 8, 12, 5, 10, 305, DateTimeKind.Utc).AddTicks(1717),
-                            ImageUrl = "/images/products/tablet.jpg",
+                            CreatedAt = new DateTimeOffset(new DateTime(2025, 3, 16, 1, 32, 27, 713, DateTimeKind.Unspecified).AddTicks(9650), new TimeSpan(0, 0, 0, 0, 0)),
+                            DeletedAt = new DateTimeOffset(new DateTime(2025, 3, 16, 1, 32, 27, 713, DateTimeKind.Unspecified).AddTicks(9650), new TimeSpan(0, 0, 0, 0, 0)),
+                            ImageUrl = "/images/products/sofa.png",
                             IsActive = true,
                             IsDeleted = false,
-                            Name = "Tablet",
-                            Price = 300.00m,
-                            Properties = "10.1 inch, 64GB",
-                            UpdatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                            IsHome = false,
+                            Name = "Kanepe",
+                            Price = 500.00m,
+                            Properties = "3 Kişilik, Kumaş Kaplama",
+                            UpdatedAt = new DateTimeOffset(new DateTime(2025, 3, 16, 1, 32, 27, 713, DateTimeKind.Unspecified).AddTicks(9650), new TimeSpan(0, 0, 0, 0, 0))
                         },
                         new
                         {
                             Id = 13,
-                            CreateDate = new DateTime(2025, 2, 8, 12, 5, 10, 305, DateTimeKind.Utc).AddTicks(1718),
-                            ImageUrl = "/images/products/headphones.jpg",
+                            CreatedAt = new DateTimeOffset(new DateTime(2025, 3, 16, 1, 32, 27, 713, DateTimeKind.Unspecified).AddTicks(9650), new TimeSpan(0, 0, 0, 0, 0)),
+                            DeletedAt = new DateTimeOffset(new DateTime(2025, 3, 16, 1, 32, 27, 713, DateTimeKind.Unspecified).AddTicks(9650), new TimeSpan(0, 0, 0, 0, 0)),
+                            ImageUrl = "/images/products/bed-sheet.png",
                             IsActive = true,
                             IsDeleted = false,
-                            Name = "Headphones",
-                            Price = 150.00m,
-                            Properties = "Noise Cancelling",
-                            UpdatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                            IsHome = false,
+                            Name = "Yatak Örtüsü",
+                            Price = 60.00m,
+                            Properties = "Pamuklu, 200x220 cm",
+                            UpdatedAt = new DateTimeOffset(new DateTime(2025, 3, 16, 1, 32, 27, 713, DateTimeKind.Unspecified).AddTicks(9650), new TimeSpan(0, 0, 0, 0, 0))
                         },
                         new
                         {
                             Id = 14,
-                            CreateDate = new DateTime(2025, 2, 8, 12, 5, 10, 305, DateTimeKind.Utc).AddTicks(1720),
-                            ImageUrl = "/images/products/blender.jpg",
+                            CreatedAt = new DateTimeOffset(new DateTime(2025, 3, 16, 1, 32, 27, 713, DateTimeKind.Unspecified).AddTicks(9660), new TimeSpan(0, 0, 0, 0, 0)),
+                            DeletedAt = new DateTimeOffset(new DateTime(2025, 3, 16, 1, 32, 27, 713, DateTimeKind.Unspecified).AddTicks(9660), new TimeSpan(0, 0, 0, 0, 0)),
+                            ImageUrl = "/images/products/lamp.png",
                             IsActive = true,
                             IsDeleted = false,
-                            Name = "Blender",
-                            Price = 50.00m,
-                            Properties = "500W, 1.5L",
-                            UpdatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                            IsHome = false,
+                            Name = "Masa Lambası",
+                            Price = 40.00m,
+                            Properties = "LED, Ayarlanabilir Işık",
+                            UpdatedAt = new DateTimeOffset(new DateTime(2025, 3, 16, 1, 32, 27, 713, DateTimeKind.Unspecified).AddTicks(9660), new TimeSpan(0, 0, 0, 0, 0))
                         },
                         new
                         {
                             Id = 15,
-                            CreateDate = new DateTime(2025, 2, 8, 12, 5, 10, 305, DateTimeKind.Utc).AddTicks(1721),
-                            ImageUrl = "/images/products/microwave.jpg",
-                            IsActive = true,
+                            CreatedAt = new DateTimeOffset(new DateTime(2025, 3, 16, 1, 32, 27, 713, DateTimeKind.Unspecified).AddTicks(9660), new TimeSpan(0, 0, 0, 0, 0)),
+                            DeletedAt = new DateTimeOffset(new DateTime(2025, 3, 16, 1, 32, 27, 713, DateTimeKind.Unspecified).AddTicks(9660), new TimeSpan(0, 0, 0, 0, 0)),
+                            ImageUrl = "/images/products/vacuum.png",
+                            IsActive = false,
                             IsDeleted = false,
-                            Name = "Microwave",
-                            Price = 100.00m,
-                            Properties = "800W, 20L",
-                            UpdatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                            IsHome = false,
+                            Name = "Süpürge",
+                            Price = 120.00m,
+                            Properties = "Elektrikli, HEPA Filtre",
+                            UpdatedAt = new DateTimeOffset(new DateTime(2025, 3, 16, 1, 32, 27, 713, DateTimeKind.Unspecified).AddTicks(9660), new TimeSpan(0, 0, 0, 0, 0))
                         },
                         new
                         {
                             Id = 16,
-                            CreateDate = new DateTime(2025, 2, 8, 12, 5, 10, 305, DateTimeKind.Utc).AddTicks(1723),
-                            ImageUrl = "/images/products/camera.jpg",
+                            CreatedAt = new DateTimeOffset(new DateTime(2025, 3, 16, 1, 32, 27, 713, DateTimeKind.Unspecified).AddTicks(9660), new TimeSpan(0, 0, 0, 0, 0)),
+                            DeletedAt = new DateTimeOffset(new DateTime(2025, 3, 16, 1, 32, 27, 713, DateTimeKind.Unspecified).AddTicks(9660), new TimeSpan(0, 0, 0, 0, 0)),
+                            ImageUrl = "/images/products/gym-bag.png",
                             IsActive = true,
                             IsDeleted = false,
-                            Name = "Camera",
-                            Price = 700.00m,
-                            Properties = "24MP, 4K Video",
-                            UpdatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                            IsHome = false,
+                            Name = "Spor Çantası",
+                            Price = 45.00m,
+                            Properties = "30 Litre, Çok Bölmeli",
+                            UpdatedAt = new DateTimeOffset(new DateTime(2025, 3, 16, 1, 32, 27, 713, DateTimeKind.Unspecified).AddTicks(9660), new TimeSpan(0, 0, 0, 0, 0))
                         },
                         new
                         {
                             Id = 17,
-                            CreateDate = new DateTime(2025, 2, 8, 12, 5, 10, 305, DateTimeKind.Utc).AddTicks(1725),
-                            ImageUrl = "/images/products/watch.jpg",
+                            CreatedAt = new DateTimeOffset(new DateTime(2025, 3, 16, 1, 32, 27, 713, DateTimeKind.Unspecified).AddTicks(9660), new TimeSpan(0, 0, 0, 0, 0)),
+                            DeletedAt = new DateTimeOffset(new DateTime(2025, 3, 16, 1, 32, 27, 713, DateTimeKind.Unspecified).AddTicks(9660), new TimeSpan(0, 0, 0, 0, 0)),
+                            ImageUrl = "/images/products/tent.png",
                             IsActive = true,
                             IsDeleted = false,
-                            Name = "Watch",
-                            Price = 80.00m,
-                            Properties = "Analog, Water Resistant",
-                            UpdatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                            IsHome = false,
+                            Name = "Tent",
+                            Price = 200.00m,
+                            Properties = "4 Kişilik, Su Geçirmez",
+                            UpdatedAt = new DateTimeOffset(new DateTime(2025, 3, 16, 1, 32, 27, 713, DateTimeKind.Unspecified).AddTicks(9660), new TimeSpan(0, 0, 0, 0, 0))
                         },
                         new
                         {
                             Id = 18,
-                            CreateDate = new DateTime(2025, 2, 8, 12, 5, 10, 305, DateTimeKind.Utc).AddTicks(1726),
-                            ImageUrl = "/images/products/backpack.jpg",
+                            CreatedAt = new DateTimeOffset(new DateTime(2025, 3, 16, 1, 32, 27, 713, DateTimeKind.Unspecified).AddTicks(9670), new TimeSpan(0, 0, 0, 0, 0)),
+                            DeletedAt = new DateTimeOffset(new DateTime(2025, 3, 16, 1, 32, 27, 713, DateTimeKind.Unspecified).AddTicks(9670), new TimeSpan(0, 0, 0, 0, 0)),
+                            ImageUrl = "/images/products/bike.png",
                             IsActive = true,
                             IsDeleted = false,
-                            Name = "Backpack",
-                            Price = 40.00m,
-                            Properties = "30L, Waterproof",
-                            UpdatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                            IsHome = false,
+                            Name = "Bisiklet",
+                            Price = 350.00m,
+                            Properties = "21 Vites, Dağ Bisikleti",
+                            UpdatedAt = new DateTimeOffset(new DateTime(2025, 3, 16, 1, 32, 27, 713, DateTimeKind.Unspecified).AddTicks(9670), new TimeSpan(0, 0, 0, 0, 0))
                         },
                         new
                         {
                             Id = 19,
-                            CreateDate = new DateTime(2025, 2, 8, 12, 5, 10, 305, DateTimeKind.Utc).AddTicks(1727),
-                            ImageUrl = "/images/products/desk_lamp.jpg",
+                            CreatedAt = new DateTimeOffset(new DateTime(2025, 3, 16, 1, 32, 27, 713, DateTimeKind.Unspecified).AddTicks(9670), new TimeSpan(0, 0, 0, 0, 0)),
+                            DeletedAt = new DateTimeOffset(new DateTime(2025, 3, 16, 1, 32, 27, 713, DateTimeKind.Unspecified).AddTicks(9670), new TimeSpan(0, 0, 0, 0, 0)),
+                            ImageUrl = "/images/products/treadmill.png",
                             IsActive = true,
                             IsDeleted = false,
-                            Name = "Desk Lamp",
-                            Price = 25.00m,
-                            Properties = "LED, Adjustable",
-                            UpdatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                            IsHome = false,
+                            Name = "Koşu Bandı",
+                            Price = 600.00m,
+                            Properties = "Katlanabilir, 12 Program",
+                            UpdatedAt = new DateTimeOffset(new DateTime(2025, 3, 16, 1, 32, 27, 713, DateTimeKind.Unspecified).AddTicks(9670), new TimeSpan(0, 0, 0, 0, 0))
                         },
                         new
                         {
                             Id = 20,
-                            CreateDate = new DateTime(2025, 2, 8, 12, 5, 10, 305, DateTimeKind.Utc).AddTicks(1729),
-                            ImageUrl = "/images/products/electric_kettle.jpg",
-                            IsActive = true,
+                            CreatedAt = new DateTimeOffset(new DateTime(2025, 3, 16, 1, 32, 27, 713, DateTimeKind.Unspecified).AddTicks(9670), new TimeSpan(0, 0, 0, 0, 0)),
+                            DeletedAt = new DateTimeOffset(new DateTime(2025, 3, 16, 1, 32, 27, 713, DateTimeKind.Unspecified).AddTicks(9670), new TimeSpan(0, 0, 0, 0, 0)),
+                            ImageUrl = "/images/products/gloves.png",
+                            IsActive = false,
                             IsDeleted = false,
-                            Name = "Electric Kettle",
-                            Price = 30.00m,
-                            Properties = "1.7L, 2200W",
-                            UpdatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                            IsHome = false,
+                            Name = "Spor Eldiveni",
+                            Price = 25.00m,
+                            Properties = "Antrenman için, Ergonomik",
+                            UpdatedAt = new DateTimeOffset(new DateTime(2025, 3, 16, 1, 32, 27, 713, DateTimeKind.Unspecified).AddTicks(9670), new TimeSpan(0, 0, 0, 0, 0))
                         },
                         new
                         {
                             Id = 21,
-                            CreateDate = new DateTime(2025, 2, 8, 12, 5, 10, 305, DateTimeKind.Utc).AddTicks(1730),
-                            ImageUrl = "/images/products/gaming_chair.jpg",
+                            CreatedAt = new DateTimeOffset(new DateTime(2025, 3, 16, 1, 32, 27, 713, DateTimeKind.Unspecified).AddTicks(9670), new TimeSpan(0, 0, 0, 0, 0)),
+                            DeletedAt = new DateTimeOffset(new DateTime(2025, 3, 16, 1, 32, 27, 713, DateTimeKind.Unspecified).AddTicks(9670), new TimeSpan(0, 0, 0, 0, 0)),
+                            ImageUrl = "/images/products/novel.png",
                             IsActive = true,
                             IsDeleted = false,
-                            Name = "Gaming Chair",
-                            Price = 200.00m,
-                            Properties = "Ergonomic, Adjustable",
-                            UpdatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                            IsHome = false,
+                            Name = "Roman Kitabı",
+                            Price = 20.00m,
+                            Properties = "En Çok Satanlar Listesinden",
+                            UpdatedAt = new DateTimeOffset(new DateTime(2025, 3, 16, 1, 32, 27, 713, DateTimeKind.Unspecified).AddTicks(9670), new TimeSpan(0, 0, 0, 0, 0))
                         },
                         new
                         {
                             Id = 22,
-                            CreateDate = new DateTime(2025, 2, 8, 12, 5, 10, 305, DateTimeKind.Utc).AddTicks(1732),
-                            ImageUrl = "/images/products/sunglasses.jpg",
+                            CreatedAt = new DateTimeOffset(new DateTime(2025, 3, 16, 1, 32, 27, 713, DateTimeKind.Unspecified).AddTicks(9670), new TimeSpan(0, 0, 0, 0, 0)),
+                            DeletedAt = new DateTimeOffset(new DateTime(2025, 3, 16, 1, 32, 27, 713, DateTimeKind.Unspecified).AddTicks(9670), new TimeSpan(0, 0, 0, 0, 0)),
+                            ImageUrl = "/images/products/self-help.png",
                             IsActive = true,
                             IsDeleted = false,
-                            Name = "Sunglasses",
-                            Price = 50.00m,
-                            Properties = "UV Protection",
-                            UpdatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                            IsHome = false,
+                            Name = "Kişisel Gelişim Kitabı",
+                            Price = 25.00m,
+                            Properties = "Motivasyon ve Başarı İçin",
+                            UpdatedAt = new DateTimeOffset(new DateTime(2025, 3, 16, 1, 32, 27, 713, DateTimeKind.Unspecified).AddTicks(9670), new TimeSpan(0, 0, 0, 0, 0))
                         },
                         new
                         {
                             Id = 23,
-                            CreateDate = new DateTime(2025, 2, 8, 12, 5, 10, 305, DateTimeKind.Utc).AddTicks(1733),
-                            ImageUrl = "/images/products/sneakers.jpg",
+                            CreatedAt = new DateTimeOffset(new DateTime(2025, 3, 16, 1, 32, 27, 713, DateTimeKind.Unspecified).AddTicks(9670), new TimeSpan(0, 0, 0, 0, 0)),
+                            DeletedAt = new DateTimeOffset(new DateTime(2025, 3, 16, 1, 32, 27, 713, DateTimeKind.Unspecified).AddTicks(9670), new TimeSpan(0, 0, 0, 0, 0)),
+                            ImageUrl = "/images/products/sci-fi.png",
                             IsActive = true,
                             IsDeleted = false,
-                            Name = "Sneakers",
-                            Price = 70.00m,
-                            Properties = "Size 43, White",
-                            UpdatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                            IsHome = false,
+                            Name = "Bilim Kurgu Kitabı",
+                            Price = 30.00m,
+                            Properties = "Klasik Bilim Kurgu Eseri",
+                            UpdatedAt = new DateTimeOffset(new DateTime(2025, 3, 16, 1, 32, 27, 713, DateTimeKind.Unspecified).AddTicks(9670), new TimeSpan(0, 0, 0, 0, 0))
                         },
                         new
                         {
                             Id = 24,
-                            CreateDate = new DateTime(2025, 2, 8, 12, 5, 10, 305, DateTimeKind.Utc).AddTicks(1734),
-                            ImageUrl = "/images/products/coffee_maker.jpg",
+                            CreatedAt = new DateTimeOffset(new DateTime(2025, 3, 16, 1, 32, 27, 713, DateTimeKind.Unspecified).AddTicks(9680), new TimeSpan(0, 0, 0, 0, 0)),
+                            DeletedAt = new DateTimeOffset(new DateTime(2025, 3, 16, 1, 32, 27, 713, DateTimeKind.Unspecified).AddTicks(9680), new TimeSpan(0, 0, 0, 0, 0)),
+                            ImageUrl = "/images/products/magazine.png",
                             IsActive = true,
                             IsDeleted = false,
-                            Name = "Coffee Maker",
-                            Price = 80.00m,
-                            Properties = "12 Cups, Programmable",
-                            UpdatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                            IsHome = false,
+                            Name = "Dergi",
+                            Price = 10.00m,
+                            Properties = "Aylık Teknoloji Dergisi",
+                            UpdatedAt = new DateTimeOffset(new DateTime(2025, 3, 16, 1, 32, 27, 713, DateTimeKind.Unspecified).AddTicks(9680), new TimeSpan(0, 0, 0, 0, 0))
                         },
                         new
                         {
                             Id = 25,
-                            CreateDate = new DateTime(2025, 2, 8, 12, 5, 10, 305, DateTimeKind.Utc).AddTicks(1736),
-                            ImageUrl = "/images/products/vacuum_cleaner.jpg",
-                            IsActive = true,
+                            CreatedAt = new DateTimeOffset(new DateTime(2025, 3, 16, 1, 32, 27, 713, DateTimeKind.Unspecified).AddTicks(9680), new TimeSpan(0, 0, 0, 0, 0)),
+                            DeletedAt = new DateTimeOffset(new DateTime(2025, 3, 16, 1, 32, 27, 713, DateTimeKind.Unspecified).AddTicks(9680), new TimeSpan(0, 0, 0, 0, 0)),
+                            ImageUrl = "/images/products/kids-book.png",
+                            IsActive = false,
                             IsDeleted = false,
-                            Name = "Vacuum Cleaner",
-                            Price = 150.00m,
-                            Properties = "Bagless, 2000W",
-                            UpdatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                            IsHome = false,
+                            Name = "Çocuk Kitabı",
+                            Price = 15.00m,
+                            Properties = "Resimli, Eğitici Hikayeler",
+                            UpdatedAt = new DateTimeOffset(new DateTime(2025, 3, 16, 1, 32, 27, 713, DateTimeKind.Unspecified).AddTicks(9680), new TimeSpan(0, 0, 0, 0, 0))
                         },
                         new
                         {
                             Id = 26,
-                            CreateDate = new DateTime(2025, 2, 8, 12, 5, 10, 305, DateTimeKind.Utc).AddTicks(1737),
-                            ImageUrl = "/images/products/air_conditioner.jpg",
+                            CreatedAt = new DateTimeOffset(new DateTime(2025, 3, 16, 1, 32, 27, 713, DateTimeKind.Unspecified).AddTicks(9680), new TimeSpan(0, 0, 0, 0, 0)),
+                            DeletedAt = new DateTimeOffset(new DateTime(2025, 3, 16, 1, 32, 27, 713, DateTimeKind.Unspecified).AddTicks(9680), new TimeSpan(0, 0, 0, 0, 0)),
+                            ImageUrl = "/images/products/lego.png",
                             IsActive = true,
                             IsDeleted = false,
-                            Name = "Air Conditioner",
-                            Price = 600.00m,
-                            Properties = "12000 BTU, Inverter",
-                            UpdatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                            IsHome = false,
+                            Name = "Lego Seti",
+                            Price = 80.00m,
+                            Properties = "1000 Parça, Yaratıcı Set",
+                            UpdatedAt = new DateTimeOffset(new DateTime(2025, 3, 16, 1, 32, 27, 713, DateTimeKind.Unspecified).AddTicks(9680), new TimeSpan(0, 0, 0, 0, 0))
                         },
                         new
                         {
                             Id = 27,
-                            CreateDate = new DateTime(2025, 2, 8, 12, 5, 10, 305, DateTimeKind.Utc).AddTicks(1738),
-                            ImageUrl = "/images/products/electric_toothbrush.jpg",
+                            CreatedAt = new DateTimeOffset(new DateTime(2025, 3, 16, 1, 32, 27, 713, DateTimeKind.Unspecified).AddTicks(9680), new TimeSpan(0, 0, 0, 0, 0)),
+                            DeletedAt = new DateTimeOffset(new DateTime(2025, 3, 16, 1, 32, 27, 713, DateTimeKind.Unspecified).AddTicks(9680), new TimeSpan(0, 0, 0, 0, 0)),
+                            ImageUrl = "/images/products/model-plane.png",
                             IsActive = true,
                             IsDeleted = false,
-                            Name = "Electric Toothbrush",
-                            Price = 40.00m,
-                            Properties = "Rechargeable, 3 Modes",
-                            UpdatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                            IsHome = false,
+                            Name = "Model Uçak",
+                            Price = 50.00m,
+                            Properties = "1:100 Ölçekli, Detaylı",
+                            UpdatedAt = new DateTimeOffset(new DateTime(2025, 3, 16, 1, 32, 27, 713, DateTimeKind.Unspecified).AddTicks(9680), new TimeSpan(0, 0, 0, 0, 0))
                         },
                         new
                         {
                             Id = 28,
-                            CreateDate = new DateTime(2025, 2, 8, 12, 5, 10, 305, DateTimeKind.Utc).AddTicks(1741),
-                            ImageUrl = "/images/products/hair_dryer.jpg",
+                            CreatedAt = new DateTimeOffset(new DateTime(2025, 3, 16, 1, 32, 27, 713, DateTimeKind.Unspecified).AddTicks(9680), new TimeSpan(0, 0, 0, 0, 0)),
+                            DeletedAt = new DateTimeOffset(new DateTime(2025, 3, 16, 1, 32, 27, 713, DateTimeKind.Unspecified).AddTicks(9680), new TimeSpan(0, 0, 0, 0, 0)),
+                            ImageUrl = "/images/products/puzzle.png",
                             IsActive = true,
                             IsDeleted = false,
-                            Name = "Hair Dryer",
+                            IsHome = false,
+                            Name = "Puzzle",
                             Price = 30.00m,
-                            Properties = "2000W, Ionic",
-                            UpdatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                            Properties = "1000 Parça, Manzara Temalı",
+                            UpdatedAt = new DateTimeOffset(new DateTime(2025, 3, 16, 1, 32, 27, 713, DateTimeKind.Unspecified).AddTicks(9680), new TimeSpan(0, 0, 0, 0, 0))
                         },
                         new
                         {
                             Id = 29,
-                            CreateDate = new DateTime(2025, 2, 8, 12, 5, 10, 305, DateTimeKind.Utc).AddTicks(1742),
-                            ImageUrl = "/images/products/smart_tv.jpg",
+                            CreatedAt = new DateTimeOffset(new DateTime(2025, 3, 16, 1, 32, 27, 713, DateTimeKind.Unspecified).AddTicks(9680), new TimeSpan(0, 0, 0, 0, 0)),
+                            DeletedAt = new DateTimeOffset(new DateTime(2025, 3, 16, 1, 32, 27, 713, DateTimeKind.Unspecified).AddTicks(9680), new TimeSpan(0, 0, 0, 0, 0)),
+                            ImageUrl = "/images/products/coloring-book.png",
                             IsActive = true,
                             IsDeleted = false,
-                            Name = "Smart TV",
-                            Price = 700.00m,
-                            Properties = "55 inch, 4K UHD",
-                            UpdatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                            IsHome = false,
+                            Name = "Boyama Kitabı",
+                            Price = 20.00m,
+                            Properties = "Yetişkinler İçin Mandala",
+                            UpdatedAt = new DateTimeOffset(new DateTime(2025, 3, 16, 1, 32, 27, 713, DateTimeKind.Unspecified).AddTicks(9680), new TimeSpan(0, 0, 0, 0, 0))
                         },
                         new
                         {
                             Id = 30,
-                            CreateDate = new DateTime(2025, 2, 8, 12, 5, 10, 305, DateTimeKind.Utc).AddTicks(1744),
-                            ImageUrl = "/images/products/gaming_console.jpg",
+                            CreatedAt = new DateTimeOffset(new DateTime(2025, 3, 16, 1, 32, 27, 713, DateTimeKind.Unspecified).AddTicks(9680), new TimeSpan(0, 0, 0, 0, 0)),
+                            DeletedAt = new DateTimeOffset(new DateTime(2025, 3, 16, 1, 32, 27, 713, DateTimeKind.Unspecified).AddTicks(9690), new TimeSpan(0, 0, 0, 0, 0)),
+                            ImageUrl = "/images/products/rc-car.png",
                             IsActive = true,
                             IsDeleted = false,
-                            Name = "Gaming Console",
-                            Price = 500.00m,
-                            Properties = "1TB, 4K HDR",
-                            UpdatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                            IsHome = false,
+                            Name = "RC Araba",
+                            Price = 70.00m,
+                            Properties = "Uzaktan Kumandalı, Hızlı",
+                            UpdatedAt = new DateTimeOffset(new DateTime(2025, 3, 16, 1, 32, 27, 713, DateTimeKind.Unspecified).AddTicks(9680), new TimeSpan(0, 0, 0, 0, 0))
                         },
                         new
                         {
                             Id = 31,
-                            CreateDate = new DateTime(2025, 2, 8, 12, 5, 10, 305, DateTimeKind.Utc).AddTicks(1745),
-                            ImageUrl = "/images/products/wireless_mouse.jpg",
+                            CreatedAt = new DateTimeOffset(new DateTime(2025, 3, 16, 1, 32, 27, 713, DateTimeKind.Unspecified).AddTicks(9690), new TimeSpan(0, 0, 0, 0, 0)),
+                            DeletedAt = new DateTimeOffset(new DateTime(2025, 3, 16, 1, 32, 27, 713, DateTimeKind.Unspecified).AddTicks(9690), new TimeSpan(0, 0, 0, 0, 0)),
+                            ImageUrl = "/images/products/moisturizer.png",
                             IsActive = true,
                             IsDeleted = false,
-                            Name = "Wireless Mouse",
-                            Price = 25.00m,
-                            Properties = "Ergonomic, 1600 DPI",
-                            UpdatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                            IsHome = false,
+                            Name = "Nemlendirici Krem",
+                            Price = 40.00m,
+                            Properties = "Cilt Bariyerini Güçlendirir",
+                            UpdatedAt = new DateTimeOffset(new DateTime(2025, 3, 16, 1, 32, 27, 713, DateTimeKind.Unspecified).AddTicks(9690), new TimeSpan(0, 0, 0, 0, 0))
                         },
                         new
                         {
                             Id = 32,
-                            CreateDate = new DateTime(2025, 2, 8, 12, 5, 10, 305, DateTimeKind.Utc).AddTicks(1746),
-                            ImageUrl = "/images/products/keyboard.jpg",
+                            CreatedAt = new DateTimeOffset(new DateTime(2025, 3, 16, 1, 32, 27, 713, DateTimeKind.Unspecified).AddTicks(9690), new TimeSpan(0, 0, 0, 0, 0)),
+                            DeletedAt = new DateTimeOffset(new DateTime(2025, 3, 16, 1, 32, 27, 713, DateTimeKind.Unspecified).AddTicks(9690), new TimeSpan(0, 0, 0, 0, 0)),
+                            ImageUrl = "/images/products/lipstick.png",
                             IsActive = true,
                             IsDeleted = false,
-                            Name = "Keyboard",
-                            Price = 80.00m,
-                            Properties = "Mechanical, RGB",
-                            UpdatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                            IsHome = false,
+                            Name = "Ruj",
+                            Price = 25.00m,
+                            Properties = "Uzun Süre Kalıcı, 12 Renk Seçeneği",
+                            UpdatedAt = new DateTimeOffset(new DateTime(2025, 3, 16, 1, 32, 27, 713, DateTimeKind.Unspecified).AddTicks(9690), new TimeSpan(0, 0, 0, 0, 0))
                         },
                         new
                         {
                             Id = 33,
-                            CreateDate = new DateTime(2025, 2, 8, 12, 5, 10, 305, DateTimeKind.Utc).AddTicks(1748),
-                            ImageUrl = "/images/products/monitor.jpg",
+                            CreatedAt = new DateTimeOffset(new DateTime(2025, 3, 16, 1, 32, 27, 713, DateTimeKind.Unspecified).AddTicks(9690), new TimeSpan(0, 0, 0, 0, 0)),
+                            DeletedAt = new DateTimeOffset(new DateTime(2025, 3, 16, 1, 32, 27, 713, DateTimeKind.Unspecified).AddTicks(9690), new TimeSpan(0, 0, 0, 0, 0)),
+                            ImageUrl = "/images/products/perfume.png",
                             IsActive = true,
                             IsDeleted = false,
-                            Name = "Monitor",
-                            Price = 300.00m,
-                            Properties = "27 inch, 144Hz",
-                            UpdatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                            IsHome = false,
+                            Name = "Parfüm",
+                            Price = 60.00m,
+                            Properties = "100 ml, Günlük Kullanım",
+                            UpdatedAt = new DateTimeOffset(new DateTime(2025, 3, 16, 1, 32, 27, 713, DateTimeKind.Unspecified).AddTicks(9690), new TimeSpan(0, 0, 0, 0, 0))
                         },
                         new
                         {
                             Id = 34,
-                            CreateDate = new DateTime(2025, 2, 8, 12, 5, 10, 305, DateTimeKind.Utc).AddTicks(1750),
-                            ImageUrl = "/images/products/printer.jpg",
+                            CreatedAt = new DateTimeOffset(new DateTime(2025, 3, 16, 1, 32, 27, 713, DateTimeKind.Unspecified).AddTicks(9690), new TimeSpan(0, 0, 0, 0, 0)),
+                            DeletedAt = new DateTimeOffset(new DateTime(2025, 3, 16, 1, 32, 27, 713, DateTimeKind.Unspecified).AddTicks(9690), new TimeSpan(0, 0, 0, 0, 0)),
+                            ImageUrl = "/images/products/shampoo.png",
                             IsActive = true,
                             IsDeleted = false,
-                            Name = "Printer",
-                            Price = 150.00m,
-                            Properties = "All-in-One, Wireless",
-                            UpdatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                            IsHome = false,
+                            Name = "Şampuan",
+                            Price = 15.00m,
+                            Properties = "Saç Dökülmesine Karşı Etkili",
+                            UpdatedAt = new DateTimeOffset(new DateTime(2025, 3, 16, 1, 32, 27, 713, DateTimeKind.Unspecified).AddTicks(9690), new TimeSpan(0, 0, 0, 0, 0))
                         },
                         new
                         {
                             Id = 35,
-                            CreateDate = new DateTime(2025, 2, 8, 12, 5, 10, 305, DateTimeKind.Utc).AddTicks(1751),
-                            ImageUrl = "/images/products/router.jpg",
+                            CreatedAt = new DateTimeOffset(new DateTime(2025, 3, 16, 1, 32, 27, 713, DateTimeKind.Unspecified).AddTicks(9690), new TimeSpan(0, 0, 0, 0, 0)),
+                            DeletedAt = new DateTimeOffset(new DateTime(2025, 3, 16, 1, 32, 27, 713, DateTimeKind.Unspecified).AddTicks(9690), new TimeSpan(0, 0, 0, 0, 0)),
+                            ImageUrl = "/images/products/razor.png",
                             IsActive = true,
                             IsDeleted = false,
-                            Name = "Router",
-                            Price = 100.00m,
-                            Properties = "Dual Band, Gigabit",
-                            UpdatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                            IsHome = false,
+                            Name = "Tıraş Makinesi",
+                            Price = 90.00m,
+                            Properties = "Islak & Kuru Kullanım",
+                            UpdatedAt = new DateTimeOffset(new DateTime(2025, 3, 16, 1, 32, 27, 713, DateTimeKind.Unspecified).AddTicks(9690), new TimeSpan(0, 0, 0, 0, 0))
                         },
                         new
                         {
                             Id = 36,
-                            CreateDate = new DateTime(2025, 2, 8, 12, 5, 10, 305, DateTimeKind.Utc).AddTicks(1752),
-                            ImageUrl = "/images/products/external_hard_drive.jpg",
+                            CreatedAt = new DateTimeOffset(new DateTime(2025, 3, 16, 1, 32, 27, 713, DateTimeKind.Unspecified).AddTicks(9690), new TimeSpan(0, 0, 0, 0, 0)),
+                            DeletedAt = new DateTimeOffset(new DateTime(2025, 3, 16, 1, 32, 27, 713, DateTimeKind.Unspecified).AddTicks(9700), new TimeSpan(0, 0, 0, 0, 0)),
+                            ImageUrl = "/images/products/diapers.png",
                             IsActive = true,
                             IsDeleted = false,
-                            Name = "External Hard Drive",
-                            Price = 80.00m,
-                            Properties = "2TB, USB 3.0",
-                            UpdatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                            IsHome = false,
+                            Name = "Bebek Bezi",
+                            Price = 40.00m,
+                            Properties = "Hipoalerjenik, 120 Adet",
+                            UpdatedAt = new DateTimeOffset(new DateTime(2025, 3, 16, 1, 32, 27, 713, DateTimeKind.Unspecified).AddTicks(9700), new TimeSpan(0, 0, 0, 0, 0))
                         },
                         new
                         {
                             Id = 37,
-                            CreateDate = new DateTime(2025, 2, 8, 12, 5, 10, 305, DateTimeKind.Utc).AddTicks(1754),
-                            ImageUrl = "/images/products/flash_drive.jpg",
+                            CreatedAt = new DateTimeOffset(new DateTime(2025, 3, 16, 1, 32, 27, 713, DateTimeKind.Unspecified).AddTicks(9700), new TimeSpan(0, 0, 0, 0, 0)),
+                            DeletedAt = new DateTimeOffset(new DateTime(2025, 3, 16, 1, 32, 27, 713, DateTimeKind.Unspecified).AddTicks(9700), new TimeSpan(0, 0, 0, 0, 0)),
+                            ImageUrl = "/images/products/stroller.png",
                             IsActive = true,
                             IsDeleted = false,
-                            Name = "Flash Drive",
-                            Price = 20.00m,
-                            Properties = "64GB, USB 3.0",
-                            UpdatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                            IsHome = false,
+                            Name = "Bebek Arabası",
+                            Price = 200.00m,
+                            Properties = "Katlanabilir, Hafif",
+                            UpdatedAt = new DateTimeOffset(new DateTime(2025, 3, 16, 1, 32, 27, 713, DateTimeKind.Unspecified).AddTicks(9700), new TimeSpan(0, 0, 0, 0, 0))
                         },
                         new
                         {
                             Id = 38,
-                            CreateDate = new DateTime(2025, 2, 8, 12, 5, 10, 305, DateTimeKind.Utc).AddTicks(1755),
-                            ImageUrl = "/images/products/power_bank.jpg",
+                            CreatedAt = new DateTimeOffset(new DateTime(2025, 3, 16, 1, 32, 27, 713, DateTimeKind.Unspecified).AddTicks(9700), new TimeSpan(0, 0, 0, 0, 0)),
+                            DeletedAt = new DateTimeOffset(new DateTime(2025, 3, 16, 1, 32, 27, 713, DateTimeKind.Unspecified).AddTicks(9700), new TimeSpan(0, 0, 0, 0, 0)),
+                            ImageUrl = "/images/products/doll.png",
                             IsActive = true,
                             IsDeleted = false,
-                            Name = "Power Bank",
-                            Price = 30.00m,
-                            Properties = "10000mAh, Fast Charging",
-                            UpdatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                            IsHome = false,
+                            Name = "Oyuncak Bebek",
+                            Price = 35.00m,
+                            Properties = "Gerçekçi Tasarım, 30 cm",
+                            UpdatedAt = new DateTimeOffset(new DateTime(2025, 3, 16, 1, 32, 27, 713, DateTimeKind.Unspecified).AddTicks(9700), new TimeSpan(0, 0, 0, 0, 0))
                         },
                         new
                         {
                             Id = 39,
-                            CreateDate = new DateTime(2025, 2, 8, 12, 5, 10, 305, DateTimeKind.Utc).AddTicks(1756),
-                            ImageUrl = "/images/products/wireless_charger.jpg",
+                            CreatedAt = new DateTimeOffset(new DateTime(2025, 3, 16, 1, 32, 27, 713, DateTimeKind.Unspecified).AddTicks(9700), new TimeSpan(0, 0, 0, 0, 0)),
+                            DeletedAt = new DateTimeOffset(new DateTime(2025, 3, 16, 1, 32, 27, 713, DateTimeKind.Unspecified).AddTicks(9700), new TimeSpan(0, 0, 0, 0, 0)),
+                            ImageUrl = "/images/products/kids-bike.png",
                             IsActive = true,
                             IsDeleted = false,
-                            Name = "Wireless Charger",
-                            Price = 25.00m,
-                            Properties = "10W, Fast Charging",
-                            UpdatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                            IsHome = false,
+                            Name = "Çocuk Bisikleti",
+                            Price = 100.00m,
+                            Properties = "12 inç, Yardımcı Tekerlekli",
+                            UpdatedAt = new DateTimeOffset(new DateTime(2025, 3, 16, 1, 32, 27, 713, DateTimeKind.Unspecified).AddTicks(9700), new TimeSpan(0, 0, 0, 0, 0))
                         },
                         new
                         {
                             Id = 40,
-                            CreateDate = new DateTime(2025, 2, 8, 12, 5, 10, 305, DateTimeKind.Utc).AddTicks(1758),
-                            ImageUrl = "/images/products/smart_light_bulb.jpg",
+                            CreatedAt = new DateTimeOffset(new DateTime(2025, 3, 16, 1, 32, 27, 713, DateTimeKind.Unspecified).AddTicks(9700), new TimeSpan(0, 0, 0, 0, 0)),
+                            DeletedAt = new DateTimeOffset(new DateTime(2025, 3, 16, 1, 32, 27, 713, DateTimeKind.Unspecified).AddTicks(9700), new TimeSpan(0, 0, 0, 0, 0)),
+                            ImageUrl = "/images/products/baby-clothes.png",
                             IsActive = true,
                             IsDeleted = false,
-                            Name = "Smart Light Bulb",
+                            IsHome = false,
+                            Name = "Bebek Giysisi",
                             Price = 20.00m,
-                            Properties = "RGB, WiFi",
-                            UpdatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
-                        },
-                        new
-                        {
-                            Id = 41,
-                            CreateDate = new DateTime(2025, 2, 8, 12, 5, 10, 305, DateTimeKind.Utc).AddTicks(1759),
-                            ImageUrl = "/images/products/security_camera.jpg",
-                            IsActive = true,
-                            IsDeleted = false,
-                            Name = "Security Camera",
-                            Price = 60.00m,
-                            Properties = "1080p, Night Vision",
-                            UpdatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
-                        },
-                        new
-                        {
-                            Id = 42,
-                            CreateDate = new DateTime(2025, 2, 8, 12, 5, 10, 305, DateTimeKind.Utc).AddTicks(1760),
-                            ImageUrl = "/images/products/fitness_tracker.jpg",
-                            IsActive = true,
-                            IsDeleted = false,
-                            Name = "Fitness Tracker",
-                            Price = 50.00m,
-                            Properties = "Heart Rate Monitor, GPS",
-                            UpdatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
-                        },
-                        new
-                        {
-                            Id = 43,
-                            CreateDate = new DateTime(2025, 2, 8, 12, 5, 10, 305, DateTimeKind.Utc).AddTicks(1762),
-                            ImageUrl = "/images/products/electric_scooter.jpg",
-                            IsActive = true,
-                            IsDeleted = false,
-                            Name = "Electric Scooter",
-                            Price = 400.00m,
-                            Properties = "25km/h, 30km Range",
-                            UpdatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
-                        },
-                        new
-                        {
-                            Id = 44,
-                            CreateDate = new DateTime(2025, 2, 8, 12, 5, 10, 305, DateTimeKind.Utc).AddTicks(1763),
-                            ImageUrl = "/images/products/drone.jpg",
-                            IsActive = true,
-                            IsDeleted = false,
-                            Name = "Drone",
-                            Price = 500.00m,
-                            Properties = "4K Camera, GPS",
-                            UpdatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
-                        },
-                        new
-                        {
-                            Id = 45,
-                            CreateDate = new DateTime(2025, 2, 8, 12, 5, 10, 305, DateTimeKind.Utc).AddTicks(1764),
-                            ImageUrl = "/images/products/action_camera.jpg",
-                            IsActive = true,
-                            IsDeleted = false,
-                            Name = "Action Camera",
-                            Price = 150.00m,
-                            Properties = "4K, Waterproof",
-                            UpdatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
-                        },
-                        new
-                        {
-                            Id = 46,
-                            CreateDate = new DateTime(2025, 2, 8, 12, 5, 10, 305, DateTimeKind.Utc).AddTicks(1766),
-                            ImageUrl = "/images/products/electric_shaver.jpg",
-                            IsActive = true,
-                            IsDeleted = false,
-                            Name = "Electric Shaver",
-                            Price = 60.00m,
-                            Properties = "Rechargeable, Wet & Dry",
-                            UpdatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
-                        },
-                        new
-                        {
-                            Id = 47,
-                            CreateDate = new DateTime(2025, 2, 8, 12, 5, 10, 305, DateTimeKind.Utc).AddTicks(1767),
-                            ImageUrl = "/images/products/hair_straightener.jpg",
-                            IsActive = true,
-                            IsDeleted = false,
-                            Name = "Hair Straightener",
-                            Price = 40.00m,
-                            Properties = "Ceramic, 200°C",
-                            UpdatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
-                        },
-                        new
-                        {
-                            Id = 48,
-                            CreateDate = new DateTime(2025, 2, 8, 12, 5, 10, 305, DateTimeKind.Utc).AddTicks(1768),
-                            ImageUrl = "/images/products/electric_grill.jpg",
-                            IsActive = true,
-                            IsDeleted = false,
-                            Name = "Electric Grill",
-                            Price = 70.00m,
-                            Properties = "2000W, Non-Stick",
-                            UpdatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
-                        },
-                        new
-                        {
-                            Id = 49,
-                            CreateDate = new DateTime(2025, 2, 8, 12, 5, 10, 305, DateTimeKind.Utc).AddTicks(1770),
-                            ImageUrl = "/images/products/rice_cooker.jpg",
-                            IsActive = true,
-                            IsDeleted = false,
-                            Name = "Rice Cooker",
-                            Price = 50.00m,
-                            Properties = "1.8L, Non-Stick",
-                            UpdatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
-                        },
-                        new
-                        {
-                            Id = 50,
-                            CreateDate = new DateTime(2025, 2, 8, 12, 5, 10, 305, DateTimeKind.Utc).AddTicks(1772),
-                            ImageUrl = "/images/products/air_fryer.jpg",
-                            IsActive = true,
-                            IsDeleted = false,
-                            Name = "Air Fryer",
-                            Price = 100.00m,
-                            Properties = "3.5L, Digital",
-                            UpdatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
-                        },
-                        new
-                        {
-                            Id = 51,
-                            CreateDate = new DateTime(2025, 2, 8, 12, 5, 10, 305, DateTimeKind.Utc).AddTicks(1773),
-                            ImageUrl = "/images/products/electric_blanket.jpg",
-                            IsActive = true,
-                            IsDeleted = false,
-                            Name = "Electric Blanket",
-                            Price = 40.00m,
-                            Properties = "150x200cm, 3 Heat Settings",
-                            UpdatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
-                        },
-                        new
-                        {
-                            Id = 52,
-                            CreateDate = new DateTime(2025, 2, 8, 12, 5, 10, 305, DateTimeKind.Utc).AddTicks(1774),
-                            ImageUrl = "/images/products/water_filter.jpg",
-                            IsActive = true,
-                            IsDeleted = false,
-                            Name = "Water Filter",
-                            Price = 30.00m,
-                            Properties = "10L, 5-Stage",
-                            UpdatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
-                        },
-                        new
-                        {
-                            Id = 53,
-                            CreateDate = new DateTime(2025, 2, 8, 12, 5, 10, 305, DateTimeKind.Utc).AddTicks(1776),
-                            ImageUrl = "/images/products/electric_heater.jpg",
-                            IsActive = true,
-                            IsDeleted = false,
-                            Name = "Electric Heater",
-                            Price = 50.00m,
-                            Properties = "2000W, Adjustable Thermostat",
-                            UpdatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
-                        },
-                        new
-                        {
-                            Id = 54,
-                            CreateDate = new DateTime(2025, 2, 8, 12, 5, 10, 305, DateTimeKind.Utc).AddTicks(1777),
-                            ImageUrl = "/images/products/dehumidifier.jpg",
-                            IsActive = true,
-                            IsDeleted = false,
-                            Name = "Dehumidifier",
-                            Price = 150.00m,
-                            Properties = "20L, Digital",
-                            UpdatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
-                        },
-                        new
-                        {
-                            Id = 55,
-                            CreateDate = new DateTime(2025, 2, 8, 12, 5, 10, 305, DateTimeKind.Utc).AddTicks(1784),
-                            ImageUrl = "/images/products/humidifier.jpg",
-                            IsActive = true,
-                            IsDeleted = false,
-                            Name = "Humidifier",
-                            Price = 40.00m,
-                            Properties = "5L, Ultrasonic",
-                            UpdatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
-                        },
-                        new
-                        {
-                            Id = 56,
-                            CreateDate = new DateTime(2025, 2, 8, 12, 5, 10, 305, DateTimeKind.Utc).AddTicks(1786),
-                            ImageUrl = "/images/products/electric_fan.jpg",
-                            IsActive = true,
-                            IsDeleted = false,
-                            Name = "Electric Fan",
-                            Price = 30.00m,
-                            Properties = "16 inch, Oscillating",
-                            UpdatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
-                        },
-                        new
-                        {
-                            Id = 57,
-                            CreateDate = new DateTime(2025, 2, 8, 12, 5, 10, 305, DateTimeKind.Utc).AddTicks(1787),
-                            ImageUrl = "/images/products/electric_iron.jpg",
-                            IsActive = true,
-                            IsDeleted = false,
-                            Name = "Electric Iron",
-                            Price = 40.00m,
-                            Properties = "2400W, Steam",
-                            UpdatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
-                        },
-                        new
-                        {
-                            Id = 58,
-                            CreateDate = new DateTime(2025, 2, 8, 12, 5, 10, 305, DateTimeKind.Utc).AddTicks(1788),
-                            ImageUrl = "/images/products/sewing_machine.jpg",
-                            IsActive = true,
-                            IsDeleted = false,
-                            Name = "Sewing Machine",
-                            Price = 100.00m,
-                            Properties = "Portable, 12 Stitches",
-                            UpdatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
-                        },
-                        new
-                        {
-                            Id = 59,
-                            CreateDate = new DateTime(2025, 2, 8, 12, 5, 10, 305, DateTimeKind.Utc).AddTicks(1790),
-                            ImageUrl = "/images/products/electric_screwdriver.jpg",
-                            IsActive = true,
-                            IsDeleted = false,
-                            Name = "Electric Screwdriver",
-                            Price = 30.00m,
-                            Properties = "Rechargeable, 3.6V",
-                            UpdatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
-                        },
-                        new
-                        {
-                            Id = 60,
-                            CreateDate = new DateTime(2025, 2, 8, 12, 5, 10, 305, DateTimeKind.Utc).AddTicks(1791),
-                            ImageUrl = "/images/products/cordless_drill.jpg",
-                            IsActive = true,
-                            IsDeleted = false,
-                            Name = "Cordless Drill",
-                            Price = 80.00m,
-                            Properties = "18V, 2 Batteries",
-                            UpdatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
-                        },
-                        new
-                        {
-                            Id = 61,
-                            CreateDate = new DateTime(2025, 2, 8, 12, 5, 10, 305, DateTimeKind.Utc).AddTicks(1792),
-                            ImageUrl = "/images/products/tool_set.jpg",
-                            IsActive = true,
-                            IsDeleted = false,
-                            Name = "Tool Set",
-                            Price = 50.00m,
-                            Properties = "100 Pieces, Chrome Vanadium",
-                            UpdatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
-                        },
-                        new
-                        {
-                            Id = 62,
-                            CreateDate = new DateTime(2025, 2, 8, 12, 5, 10, 305, DateTimeKind.Utc).AddTicks(1793),
-                            ImageUrl = "/images/products/lawn_mower.jpg",
-                            IsActive = true,
-                            IsDeleted = false,
-                            Name = "Lawn Mower",
-                            Price = 150.00m,
-                            Properties = "Electric, 1600W",
-                            UpdatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
-                        },
-                        new
-                        {
-                            Id = 63,
-                            CreateDate = new DateTime(2025, 2, 8, 12, 5, 10, 305, DateTimeKind.Utc).AddTicks(1795),
-                            ImageUrl = "/images/products/garden_hose.jpg",
-                            IsActive = true,
-                            IsDeleted = false,
-                            Name = "Garden Hose",
-                            Price = 40.00m,
-                            Properties = "30m, Expandable",
-                            UpdatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
-                        },
-                        new
-                        {
-                            Id = 64,
-                            CreateDate = new DateTime(2025, 2, 8, 12, 5, 10, 305, DateTimeKind.Utc).AddTicks(1796),
-                            ImageUrl = "/images/products/bbq_grill.jpg",
-                            IsActive = true,
-                            IsDeleted = false,
-                            Name = "BBQ Grill",
-                            Price = 70.00m,
-                            Properties = "Charcoal, Portable",
-                            UpdatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
-                        },
-                        new
-                        {
-                            Id = 65,
-                            CreateDate = new DateTime(2025, 2, 8, 12, 5, 10, 305, DateTimeKind.Utc).AddTicks(1798),
-                            ImageUrl = "/images/products/tent.jpg",
-                            IsActive = true,
-                            IsDeleted = false,
-                            Name = "Tent",
-                            Price = 100.00m,
-                            Properties = "4 Person, Waterproof",
-                            UpdatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
-                        },
-                        new
-                        {
-                            Id = 66,
-                            CreateDate = new DateTime(2025, 2, 8, 12, 5, 10, 305, DateTimeKind.Utc).AddTicks(1799),
-                            ImageUrl = "/images/products/sleeping_bag.jpg",
-                            IsActive = true,
-                            IsDeleted = false,
-                            Name = "Sleeping Bag",
-                            Price = 50.00m,
-                            Properties = "3 Season, Mummy",
-                            UpdatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
-                        },
-                        new
-                        {
-                            Id = 67,
-                            CreateDate = new DateTime(2025, 2, 8, 12, 5, 10, 305, DateTimeKind.Utc).AddTicks(1801),
-                            ImageUrl = "/images/products/camping_stove.jpg",
-                            IsActive = true,
-                            IsDeleted = false,
-                            Name = "Camping Stove",
-                            Price = 30.00m,
-                            Properties = "Portable, Gas",
-                            UpdatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
-                        },
-                        new
-                        {
-                            Id = 68,
-                            CreateDate = new DateTime(2025, 2, 8, 12, 5, 10, 305, DateTimeKind.Utc).AddTicks(1802),
-                            ImageUrl = "/images/products/hiking_backpack.jpg",
-                            IsActive = true,
-                            IsDeleted = false,
-                            Name = "Hiking Backpack",
-                            Price = 60.00m,
-                            Properties = "50L, Waterproof",
-                            UpdatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
-                        },
-                        new
-                        {
-                            Id = 69,
-                            CreateDate = new DateTime(2025, 2, 8, 12, 5, 10, 305, DateTimeKind.Utc).AddTicks(1803),
-                            ImageUrl = "/images/products/binoculars.jpg",
-                            IsActive = true,
-                            IsDeleted = false,
-                            Name = "Binoculars",
-                            Price = 80.00m,
-                            Properties = "10x50, Waterproof",
-                            UpdatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
-                        },
-                        new
-                        {
-                            Id = 70,
-                            CreateDate = new DateTime(2025, 2, 8, 12, 5, 10, 305, DateTimeKind.Utc).AddTicks(1805),
-                            ImageUrl = "/images/products/fishing_rod.jpg",
-                            IsActive = true,
-                            IsDeleted = false,
-                            Name = "Fishing Rod",
-                            Price = 40.00m,
-                            Properties = "Carbon Fiber, 2.1m",
-                            UpdatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
-                        },
-                        new
-                        {
-                            Id = 71,
-                            CreateDate = new DateTime(2025, 2, 8, 12, 5, 10, 305, DateTimeKind.Utc).AddTicks(1806),
-                            ImageUrl = "/images/products/yoga_mat.jpg",
-                            IsActive = true,
-                            IsDeleted = false,
-                            Name = "Yoga Mat",
-                            Price = 20.00m,
-                            Properties = "6mm, Non-Slip",
-                            UpdatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
-                        },
-                        new
-                        {
-                            Id = 72,
-                            CreateDate = new DateTime(2025, 2, 8, 12, 5, 10, 305, DateTimeKind.Utc).AddTicks(1807),
-                            ImageUrl = "/images/products/dumbbell_set.jpg",
-                            IsActive = true,
-                            IsDeleted = false,
-                            Name = "Dumbbell Set",
-                            Price = 50.00m,
-                            Properties = "20kg, Adjustable",
-                            UpdatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
-                        },
-                        new
-                        {
-                            Id = 73,
-                            CreateDate = new DateTime(2025, 2, 8, 12, 5, 10, 305, DateTimeKind.Utc).AddTicks(1809),
-                            ImageUrl = "/images/products/treadmill.jpg",
-                            IsActive = true,
-                            IsDeleted = false,
-                            Name = "Treadmill",
-                            Price = 500.00m,
-                            Properties = "Folding, 2.5HP",
-                            UpdatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
-                        },
-                        new
-                        {
-                            Id = 74,
-                            CreateDate = new DateTime(2025, 2, 8, 12, 5, 10, 305, DateTimeKind.Utc).AddTicks(1810),
-                            ImageUrl = "/images/products/exercise_bike.jpg",
-                            IsActive = true,
-                            IsDeleted = false,
-                            Name = "Exercise Bike",
-                            Price = 200.00m,
-                            Properties = "Magnetic, 8 Resistance Levels",
-                            UpdatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
-                        },
-                        new
-                        {
-                            Id = 75,
-                            CreateDate = new DateTime(2025, 2, 8, 12, 5, 10, 305, DateTimeKind.Utc).AddTicks(1811),
-                            ImageUrl = "/images/products/rowing_machine.jpg",
-                            IsActive = true,
-                            IsDeleted = false,
-                            Name = "Rowing Machine",
-                            Price = 300.00m,
-                            Properties = "Magnetic, Foldable",
-                            UpdatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
-                        },
-                        new
-                        {
-                            Id = 76,
-                            CreateDate = new DateTime(2025, 2, 8, 12, 5, 10, 305, DateTimeKind.Utc).AddTicks(1812),
-                            ImageUrl = "/images/products/elliptical_trainer.jpg",
-                            IsActive = true,
-                            IsDeleted = false,
-                            Name = "Elliptical Trainer",
-                            Price = 400.00m,
-                            Properties = "Magnetic, 8 Resistance Levels",
-                            UpdatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
-                        },
-                        new
-                        {
-                            Id = 77,
-                            CreateDate = new DateTime(2025, 2, 8, 12, 5, 10, 305, DateTimeKind.Utc).AddTicks(1814),
-                            ImageUrl = "/images/products/weight_bench.jpg",
-                            IsActive = true,
-                            IsDeleted = false,
-                            Name = "Weight Bench",
-                            Price = 100.00m,
-                            Properties = "Adjustable, Foldable",
-                            UpdatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
-                        },
-                        new
-                        {
-                            Id = 78,
-                            CreateDate = new DateTime(2025, 2, 8, 12, 5, 10, 305, DateTimeKind.Utc).AddTicks(1815),
-                            ImageUrl = "/images/products/pull_up_bar.jpg",
-                            IsActive = true,
-                            IsDeleted = false,
-                            Name = "Pull-Up Bar",
-                            Price = 30.00m,
-                            Properties = "Doorway, Adjustable",
-                            UpdatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
-                        },
-                        new
-                        {
-                            Id = 79,
-                            CreateDate = new DateTime(2025, 2, 8, 12, 5, 10, 305, DateTimeKind.Utc).AddTicks(1816),
-                            ImageUrl = "/images/products/resistance_bands.jpg",
-                            IsActive = true,
-                            IsDeleted = false,
-                            Name = "Resistance Bands",
-                            Price = 20.00m,
-                            Properties = "Set of 5, Different Resistance Levels",
-                            UpdatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
-                        },
-                        new
-                        {
-                            Id = 80,
-                            CreateDate = new DateTime(2025, 2, 8, 12, 5, 10, 305, DateTimeKind.Utc).AddTicks(1818),
-                            ImageUrl = "/images/products/jump_rope.jpg",
-                            IsActive = true,
-                            IsDeleted = false,
-                            Name = "Jump Rope",
-                            Price = 10.00m,
-                            Properties = "Adjustable, Speed",
-                            UpdatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
-                        },
-                        new
-                        {
-                            Id = 81,
-                            CreateDate = new DateTime(2025, 2, 8, 12, 5, 10, 305, DateTimeKind.Utc).AddTicks(1821),
-                            ImageUrl = "/images/products/basketball.jpg",
-                            IsActive = true,
-                            IsDeleted = false,
-                            Name = "Basketball",
-                            Price = 25.00m,
-                            Properties = "Size 7, Indoor/Outdoor",
-                            UpdatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
-                        },
-                        new
-                        {
-                            Id = 82,
-                            CreateDate = new DateTime(2025, 2, 8, 12, 5, 10, 305, DateTimeKind.Utc).AddTicks(1822),
-                            ImageUrl = "/images/products/soccer_ball.jpg",
-                            IsActive = true,
-                            IsDeleted = false,
-                            Name = "Soccer Ball",
-                            Price = 20.00m,
-                            Properties = "Size 5, Synthetic Leather",
-                            UpdatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
-                        },
-                        new
-                        {
-                            Id = 83,
-                            CreateDate = new DateTime(2025, 2, 8, 12, 5, 10, 305, DateTimeKind.Utc).AddTicks(1823),
-                            ImageUrl = "/images/products/tennis_racket.jpg",
-                            IsActive = true,
-                            IsDeleted = false,
-                            Name = "Tennis Racket",
-                            Price = 50.00m,
-                            Properties = "Graphite, Lightweight",
-                            UpdatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
-                        },
-                        new
-                        {
-                            Id = 84,
-                            CreateDate = new DateTime(2025, 2, 8, 12, 5, 10, 305, DateTimeKind.Utc).AddTicks(1824),
-                            ImageUrl = "/images/products/badminton_set.jpg",
-                            IsActive = true,
-                            IsDeleted = false,
-                            Name = "Badminton Set",
-                            Price = 30.00m,
-                            Properties = "2 Rackets, 3 Shuttlecocks",
-                            UpdatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
-                        },
-                        new
-                        {
-                            Id = 85,
-                            CreateDate = new DateTime(2025, 2, 8, 12, 5, 10, 305, DateTimeKind.Utc).AddTicks(1826),
-                            ImageUrl = "/images/products/golf_clubs.jpg",
-                            IsActive = true,
-                            IsDeleted = false,
-                            Name = "Golf Clubs",
-                            Price = 500.00m,
-                            Properties = "Set of 12, Graphite",
-                            UpdatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
-                        },
-                        new
-                        {
-                            Id = 86,
-                            CreateDate = new DateTime(2025, 2, 8, 12, 5, 10, 305, DateTimeKind.Utc).AddTicks(1827),
-                            ImageUrl = "/images/products/skateboard.jpg",
-                            IsActive = true,
-                            IsDeleted = false,
-                            Name = "Skateboard",
-                            Price = 40.00m,
-                            Properties = "31 inch, Maple",
-                            UpdatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
-                        },
-                        new
-                        {
-                            Id = 87,
-                            CreateDate = new DateTime(2025, 2, 8, 12, 5, 10, 305, DateTimeKind.Utc).AddTicks(1828),
-                            ImageUrl = "/images/products/roller_skates.jpg",
-                            IsActive = true,
-                            IsDeleted = false,
-                            Name = "Roller Skates",
-                            Price = 60.00m,
-                            Properties = "Adjustable, Size 38-42",
-                            UpdatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
-                        },
-                        new
-                        {
-                            Id = 88,
-                            CreateDate = new DateTime(2025, 2, 8, 12, 5, 10, 305, DateTimeKind.Utc).AddTicks(1830),
-                            ImageUrl = "/images/products/helmet.jpg",
-                            IsActive = true,
-                            IsDeleted = false,
-                            Name = "Helmet",
-                            Price = 30.00m,
-                            Properties = "Bike, Size M",
-                            UpdatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
-                        },
-                        new
-                        {
-                            Id = 89,
-                            CreateDate = new DateTime(2025, 2, 8, 12, 5, 10, 305, DateTimeKind.Utc).AddTicks(1831),
-                            ImageUrl = "/images/products/knee_pads.jpg",
-                            IsActive = true,
-                            IsDeleted = false,
-                            Name = "Knee Pads",
-                            Price = 20.00m,
-                            Properties = "Set of 2, Adjustable",
-                            UpdatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
-                        },
-                        new
-                        {
-                            Id = 90,
-                            CreateDate = new DateTime(2025, 2, 8, 12, 5, 10, 305, DateTimeKind.Utc).AddTicks(1832),
-                            ImageUrl = "/images/products/elbow_pads.jpg",
-                            IsActive = true,
-                            IsDeleted = false,
-                            Name = "Elbow Pads",
-                            Price = 20.00m,
-                            Properties = "Set of 2, Adjustable",
-                            UpdatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
-                        },
-                        new
-                        {
-                            Id = 91,
-                            CreateDate = new DateTime(2025, 2, 8, 12, 5, 10, 305, DateTimeKind.Utc).AddTicks(1833),
-                            ImageUrl = "/images/products/wrist_guards.jpg",
-                            IsActive = true,
-                            IsDeleted = false,
-                            Name = "Wrist Guards",
-                            Price = 20.00m,
-                            Properties = "Set of 2, Adjustable",
-                            UpdatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
-                        },
-                        new
-                        {
-                            Id = 92,
-                            CreateDate = new DateTime(2025, 2, 8, 12, 5, 10, 305, DateTimeKind.Utc).AddTicks(1835),
-                            ImageUrl = "/images/products/bike_lock.jpg",
-                            IsActive = true,
-                            IsDeleted = false,
-                            Name = "Bike Lock",
-                            Price = 25.00m,
-                            Properties = "Combination, Heavy Duty",
-                            UpdatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
-                        },
-                        new
-                        {
-                            Id = 93,
-                            CreateDate = new DateTime(2025, 2, 8, 12, 5, 10, 305, DateTimeKind.Utc).AddTicks(1836),
-                            ImageUrl = "/images/products/bike_pump.jpg",
-                            IsActive = true,
-                            IsDeleted = false,
-                            Name = "Bike Pump",
-                            Price = 20.00m,
-                            Properties = "Portable, High Pressure",
-                            UpdatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
-                        },
-                        new
-                        {
-                            Id = 94,
-                            CreateDate = new DateTime(2025, 2, 8, 12, 5, 10, 305, DateTimeKind.Utc).AddTicks(1837),
-                            ImageUrl = "/images/products/bike_light.jpg",
-                            IsActive = true,
-                            IsDeleted = false,
-                            Name = "Bike Light",
-                            Price = 30.00m,
-                            Properties = "Front and Rear, USB Rechargeable",
-                            UpdatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
-                        },
-                        new
-                        {
-                            Id = 95,
-                            CreateDate = new DateTime(2025, 2, 8, 12, 5, 10, 305, DateTimeKind.Utc).AddTicks(1839),
-                            ImageUrl = "/images/products/bike_bell.jpg",
-                            IsActive = true,
-                            IsDeleted = false,
-                            Name = "Bike Bell",
-                            Price = 10.00m,
-                            Properties = "Loud, Easy to Install",
-                            UpdatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
-                        },
-                        new
-                        {
-                            Id = 96,
-                            CreateDate = new DateTime(2025, 2, 8, 12, 5, 10, 305, DateTimeKind.Utc).AddTicks(1840),
-                            ImageUrl = "/images/products/bike_basket.jpg",
-                            IsActive = true,
-                            IsDeleted = false,
-                            Name = "Bike Basket",
-                            Price = 40.00m,
-                            Properties = "Front, Wicker",
-                            UpdatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
-                        },
-                        new
-                        {
-                            Id = 97,
-                            CreateDate = new DateTime(2025, 2, 8, 12, 5, 10, 305, DateTimeKind.Utc).AddTicks(1842),
-                            ImageUrl = "/images/products/bike_rack.jpg",
-                            IsActive = true,
-                            IsDeleted = false,
-                            Name = "Bike Rack",
-                            Price = 50.00m,
-                            Properties = "Rear, Adjustable",
-                            UpdatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
-                        },
-                        new
-                        {
-                            Id = 98,
-                            CreateDate = new DateTime(2025, 2, 8, 12, 5, 10, 305, DateTimeKind.Utc).AddTicks(1843),
-                            ImageUrl = "/images/products/bike_seat.jpg",
-                            IsActive = true,
-                            IsDeleted = false,
-                            Name = "Bike Seat",
-                            Price = 30.00m,
-                            Properties = "Comfort, Gel",
-                            UpdatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
-                        },
-                        new
-                        {
-                            Id = 99,
-                            CreateDate = new DateTime(2025, 2, 8, 12, 5, 10, 305, DateTimeKind.Utc).AddTicks(1844),
-                            ImageUrl = "/images/products/bike_gloves.jpg",
-                            IsActive = true,
-                            IsDeleted = false,
-                            Name = "Bike Gloves",
-                            Price = 20.00m,
-                            Properties = "Padded, Size L",
-                            UpdatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
-                        },
-                        new
-                        {
-                            Id = 100,
-                            CreateDate = new DateTime(2025, 2, 8, 12, 5, 10, 305, DateTimeKind.Utc).AddTicks(1846),
-                            ImageUrl = "/images/products/bike_shorts.jpg",
-                            IsActive = true,
-                            IsDeleted = false,
-                            Name = "Bike Shorts",
-                            Price = 40.00m,
-                            Properties = "Padded, Size M",
-                            UpdatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                            Properties = "Pamuklu, Rahat",
+                            UpdatedAt = new DateTimeOffset(new DateTime(2025, 3, 16, 1, 32, 27, 713, DateTimeKind.Unspecified).AddTicks(9700), new TimeSpan(0, 0, 0, 0, 0))
                         });
                 });
 
@@ -1786,7 +2157,67 @@ namespace EShop.Data.Migrations
                         new
                         {
                             ProductId = 3,
+                            CategoryId = 1
+                        },
+                        new
+                        {
+                            ProductId = 4,
+                            CategoryId = 1
+                        },
+                        new
+                        {
+                            ProductId = 5,
+                            CategoryId = 1
+                        },
+                        new
+                        {
+                            ProductId = 6,
                             CategoryId = 2
+                        },
+                        new
+                        {
+                            ProductId = 7,
+                            CategoryId = 2
+                        },
+                        new
+                        {
+                            ProductId = 8,
+                            CategoryId = 2
+                        },
+                        new
+                        {
+                            ProductId = 9,
+                            CategoryId = 2
+                        },
+                        new
+                        {
+                            ProductId = 10,
+                            CategoryId = 2
+                        },
+                        new
+                        {
+                            ProductId = 11,
+                            CategoryId = 3
+                        },
+                        new
+                        {
+                            ProductId = 12,
+                            CategoryId = 3
+                        },
+                        new
+                        {
+                            ProductId = 13,
+                            CategoryId = 3
+                        },
+                        new
+                        {
+                            ProductId = 14,
+                            CategoryId = 3
+                        },
+                        new
+                        {
+                            ProductId = 15,
+                            CategoryId = 3
                         },
                         new
                         {
@@ -1795,68 +2226,18 @@ namespace EShop.Data.Migrations
                         },
                         new
                         {
-                            ProductId = 5,
-                            CategoryId = 10
-                        },
-                        new
-                        {
-                            ProductId = 6,
-                            CategoryId = 6
-                        },
-                        new
-                        {
-                            ProductId = 7,
-                            CategoryId = 7
-                        },
-                        new
-                        {
                             ProductId = 8,
-                            CategoryId = 8
-                        },
-                        new
-                        {
-                            ProductId = 9,
-                            CategoryId = 9
-                        },
-                        new
-                        {
-                            ProductId = 10,
-                            CategoryId = 5
-                        },
-                        new
-                        {
-                            ProductId = 11,
-                            CategoryId = 1
-                        },
-                        new
-                        {
-                            ProductId = 12,
-                            CategoryId = 1
-                        },
-                        new
-                        {
-                            ProductId = 13,
-                            CategoryId = 1
-                        },
-                        new
-                        {
-                            ProductId = 14,
-                            CategoryId = 10
-                        },
-                        new
-                        {
-                            ProductId = 15,
-                            CategoryId = 10
+                            CategoryId = 4
                         },
                         new
                         {
                             ProductId = 16,
-                            CategoryId = 1
+                            CategoryId = 4
                         },
                         new
                         {
                             ProductId = 17,
-                            CategoryId = 1
+                            CategoryId = 4
                         },
                         new
                         {
@@ -1866,412 +2247,152 @@ namespace EShop.Data.Migrations
                         new
                         {
                             ProductId = 19,
-                            CategoryId = 3
+                            CategoryId = 4
                         },
                         new
                         {
                             ProductId = 20,
-                            CategoryId = 10
-                        },
-                        new
-                        {
-                            ProductId = 21,
                             CategoryId = 4
-                        },
-                        new
-                        {
-                            ProductId = 22,
-                            CategoryId = 2
-                        },
-                        new
-                        {
-                            ProductId = 23,
-                            CategoryId = 2
-                        },
-                        new
-                        {
-                            ProductId = 24,
-                            CategoryId = 10
-                        },
-                        new
-                        {
-                            ProductId = 25,
-                            CategoryId = 10
-                        },
-                        new
-                        {
-                            ProductId = 26,
-                            CategoryId = 10
-                        },
-                        new
-                        {
-                            ProductId = 27,
-                            CategoryId = 7
-                        },
-                        new
-                        {
-                            ProductId = 28,
-                            CategoryId = 7
-                        },
-                        new
-                        {
-                            ProductId = 29,
-                            CategoryId = 1
-                        },
-                        new
-                        {
-                            ProductId = 30,
-                            CategoryId = 1
-                        },
-                        new
-                        {
-                            ProductId = 31,
-                            CategoryId = 1
-                        },
-                        new
-                        {
-                            ProductId = 32,
-                            CategoryId = 1
-                        },
-                        new
-                        {
-                            ProductId = 33,
-                            CategoryId = 1
-                        },
-                        new
-                        {
-                            ProductId = 34,
-                            CategoryId = 1
-                        },
-                        new
-                        {
-                            ProductId = 35,
-                            CategoryId = 1
-                        },
-                        new
-                        {
-                            ProductId = 36,
-                            CategoryId = 1
-                        },
-                        new
-                        {
-                            ProductId = 37,
-                            CategoryId = 1
-                        },
-                        new
-                        {
-                            ProductId = 38,
-                            CategoryId = 1
                         },
                         new
                         {
                             ProductId = 39,
-                            CategoryId = 1
+                            CategoryId = 4
+                        },
+                        new
+                        {
+                            ProductId = 21,
+                            CategoryId = 5
+                        },
+                        new
+                        {
+                            ProductId = 22,
+                            CategoryId = 5
+                        },
+                        new
+                        {
+                            ProductId = 23,
+                            CategoryId = 5
+                        },
+                        new
+                        {
+                            ProductId = 24,
+                            CategoryId = 5
+                        },
+                        new
+                        {
+                            ProductId = 25,
+                            CategoryId = 5
+                        },
+                        new
+                        {
+                            ProductId = 26,
+                            CategoryId = 6
+                        },
+                        new
+                        {
+                            ProductId = 27,
+                            CategoryId = 6
+                        },
+                        new
+                        {
+                            ProductId = 28,
+                            CategoryId = 6
+                        },
+                        new
+                        {
+                            ProductId = 29,
+                            CategoryId = 6
+                        },
+                        new
+                        {
+                            ProductId = 30,
+                            CategoryId = 6
+                        },
+                        new
+                        {
+                            ProductId = 38,
+                            CategoryId = 6
+                        },
+                        new
+                        {
+                            ProductId = 31,
+                            CategoryId = 7
+                        },
+                        new
+                        {
+                            ProductId = 32,
+                            CategoryId = 7
+                        },
+                        new
+                        {
+                            ProductId = 33,
+                            CategoryId = 7
+                        },
+                        new
+                        {
+                            ProductId = 34,
+                            CategoryId = 7
+                        },
+                        new
+                        {
+                            ProductId = 35,
+                            CategoryId = 7
+                        },
+                        new
+                        {
+                            ProductId = 25,
+                            CategoryId = 9
+                        },
+                        new
+                        {
+                            ProductId = 26,
+                            CategoryId = 9
+                        },
+                        new
+                        {
+                            ProductId = 30,
+                            CategoryId = 9
+                        },
+                        new
+                        {
+                            ProductId = 36,
+                            CategoryId = 9
+                        },
+                        new
+                        {
+                            ProductId = 37,
+                            CategoryId = 9
+                        },
+                        new
+                        {
+                            ProductId = 38,
+                            CategoryId = 9
+                        },
+                        new
+                        {
+                            ProductId = 39,
+                            CategoryId = 9
                         },
                         new
                         {
                             ProductId = 40,
-                            CategoryId = 1
+                            CategoryId = 9
                         },
                         new
                         {
-                            ProductId = 41,
-                            CategoryId = 1
+                            ProductId = 9,
+                            CategoryId = 3
                         },
                         new
                         {
-                            ProductId = 42,
-                            CategoryId = 4
+                            ProductId = 16,
+                            CategoryId = 2
                         },
                         new
                         {
-                            ProductId = 43,
-                            CategoryId = 4
-                        },
-                        new
-                        {
-                            ProductId = 44,
-                            CategoryId = 4
-                        },
-                        new
-                        {
-                            ProductId = 45,
-                            CategoryId = 4
-                        },
-                        new
-                        {
-                            ProductId = 46,
-                            CategoryId = 7
-                        },
-                        new
-                        {
-                            ProductId = 47,
-                            CategoryId = 7
-                        },
-                        new
-                        {
-                            ProductId = 48,
-                            CategoryId = 10
-                        },
-                        new
-                        {
-                            ProductId = 49,
-                            CategoryId = 10
-                        },
-                        new
-                        {
-                            ProductId = 50,
-                            CategoryId = 10
-                        },
-                        new
-                        {
-                            ProductId = 51,
-                            CategoryId = 10
-                        },
-                        new
-                        {
-                            ProductId = 52,
-                            CategoryId = 10
-                        },
-                        new
-                        {
-                            ProductId = 53,
-                            CategoryId = 10
-                        },
-                        new
-                        {
-                            ProductId = 54,
-                            CategoryId = 10
-                        },
-                        new
-                        {
-                            ProductId = 55,
-                            CategoryId = 10
-                        },
-                        new
-                        {
-                            ProductId = 56,
-                            CategoryId = 10
-                        },
-                        new
-                        {
-                            ProductId = 57,
-                            CategoryId = 10
-                        },
-                        new
-                        {
-                            ProductId = 58,
-                            CategoryId = 10
-                        },
-                        new
-                        {
-                            ProductId = 59,
-                            CategoryId = 10
-                        },
-                        new
-                        {
-                            ProductId = 60,
-                            CategoryId = 10
-                        },
-                        new
-                        {
-                            ProductId = 61,
-                            CategoryId = 10
-                        },
-                        new
-                        {
-                            ProductId = 62,
-                            CategoryId = 10
-                        },
-                        new
-                        {
-                            ProductId = 63,
-                            CategoryId = 10
-                        },
-                        new
-                        {
-                            ProductId = 64,
-                            CategoryId = 10
-                        },
-                        new
-                        {
-                            ProductId = 65,
-                            CategoryId = 4
-                        },
-                        new
-                        {
-                            ProductId = 66,
-                            CategoryId = 4
-                        },
-                        new
-                        {
-                            ProductId = 67,
-                            CategoryId = 4
-                        },
-                        new
-                        {
-                            ProductId = 68,
-                            CategoryId = 4
-                        },
-                        new
-                        {
-                            ProductId = 69,
-                            CategoryId = 4
-                        },
-                        new
-                        {
-                            ProductId = 70,
-                            CategoryId = 4
-                        },
-                        new
-                        {
-                            ProductId = 71,
-                            CategoryId = 4
-                        },
-                        new
-                        {
-                            ProductId = 72,
-                            CategoryId = 4
-                        },
-                        new
-                        {
-                            ProductId = 73,
-                            CategoryId = 4
-                        },
-                        new
-                        {
-                            ProductId = 74,
-                            CategoryId = 4
-                        },
-                        new
-                        {
-                            ProductId = 75,
-                            CategoryId = 4
-                        },
-                        new
-                        {
-                            ProductId = 76,
-                            CategoryId = 4
-                        },
-                        new
-                        {
-                            ProductId = 77,
-                            CategoryId = 4
-                        },
-                        new
-                        {
-                            ProductId = 78,
-                            CategoryId = 4
-                        },
-                        new
-                        {
-                            ProductId = 79,
-                            CategoryId = 4
-                        },
-                        new
-                        {
-                            ProductId = 80,
-                            CategoryId = 4
-                        },
-                        new
-                        {
-                            ProductId = 81,
-                            CategoryId = 4
-                        },
-                        new
-                        {
-                            ProductId = 82,
-                            CategoryId = 4
-                        },
-                        new
-                        {
-                            ProductId = 83,
-                            CategoryId = 4
-                        },
-                        new
-                        {
-                            ProductId = 84,
-                            CategoryId = 4
-                        },
-                        new
-                        {
-                            ProductId = 85,
-                            CategoryId = 4
-                        },
-                        new
-                        {
-                            ProductId = 86,
-                            CategoryId = 4
-                        },
-                        new
-                        {
-                            ProductId = 87,
-                            CategoryId = 4
-                        },
-                        new
-                        {
-                            ProductId = 88,
-                            CategoryId = 4
-                        },
-                        new
-                        {
-                            ProductId = 89,
-                            CategoryId = 4
-                        },
-                        new
-                        {
-                            ProductId = 90,
-                            CategoryId = 4
-                        },
-                        new
-                        {
-                            ProductId = 91,
-                            CategoryId = 4
-                        },
-                        new
-                        {
-                            ProductId = 92,
-                            CategoryId = 4
-                        },
-                        new
-                        {
-                            ProductId = 93,
-                            CategoryId = 4
-                        },
-                        new
-                        {
-                            ProductId = 94,
-                            CategoryId = 4
-                        },
-                        new
-                        {
-                            ProductId = 95,
-                            CategoryId = 4
-                        },
-                        new
-                        {
-                            ProductId = 96,
-                            CategoryId = 4
-                        },
-                        new
-                        {
-                            ProductId = 97,
-                            CategoryId = 4
-                        },
-                        new
-                        {
-                            ProductId = 98,
-                            CategoryId = 4
-                        },
-                        new
-                        {
-                            ProductId = 99,
-                            CategoryId = 4
-                        },
-                        new
-                        {
-                            ProductId = 100,
-                            CategoryId = 4
+                            ProductId = 40,
+                            CategoryId = 2
                         });
                 });
 

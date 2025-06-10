@@ -1,8 +1,7 @@
-using System;
-
-namespace EShop.Shared.Dtos.ResponseDtos;
-
-public class NoContent
+namespace EShop.Shared.Dtos.ResponseDtos
 {
-    //No property
+    public class NoContent
+    {
+        //No property
+    }
 }

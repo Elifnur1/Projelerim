@@ -7,7 +7,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Areas\Admin\Models\" />
+    <PackageReference Include="Iyzipay" Version="2.1.67" />
+    <PackageReference Include="NToastNotify" Version="8.0.0" />
+    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="8.5.0" />
   </ItemGroup>
 
 </Project>

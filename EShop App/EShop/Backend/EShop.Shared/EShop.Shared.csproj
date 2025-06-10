@@ -10,4 +10,11 @@
     <FrameworkReference Include="Microsoft.AspNetCore.App" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Dtos/CartDtos/" />
+    <Folder Include="Dtos/CategoryDtos/" />
+    <Folder Include="Dtos/OrderDtos/" />
+    <Folder Include="Dtos/ProductDtos/" />
+  </ItemGroup>
+
 </Project>
